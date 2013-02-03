@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: OGF
+Description: Ogre Gaming Framework
+Requires: OGRE CEGUI CEGUI-OGRE OIS
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -logf-0.1
+Cflags: -I${includedir}/OGF -I${libdir}/OGF/include

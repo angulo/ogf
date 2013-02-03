@@ -1,0 +1,20 @@
+AC_INIT(ogf, 0.1)
+
+AC_CONFIG_HEADERS([config.h])
+
+AC_CONFIG_FILES([OGF.pc])
+
+AM_INIT_AUTOMAKE([1.11])
+
+AM_SILENT_RULES([yes])
+
+AC_PROG_CXX
+
+LT_INIT
+
+PKG_CHECK_MODULES(OGF, [OGRE CEGUI CEGUI-OGRE OIS ])
+
+AC_OUTPUT([
+	Makefile
+	src/Makefile
+])
