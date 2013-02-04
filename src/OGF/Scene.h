@@ -25,9 +25,29 @@
 
 namespace OGF {
 	
-	class Scene : public Ogre::Singleton<Scene> {
+	class Scene {
 		
 		protected:
+			
+			virtual void preload();
+
+			virtual void enter() = 0;
+			virtual void exit() = 0;
+
+			virtual void pause() = 0;
+			virtual void resume() = 0;
+
+			virtual bool frameStarted(const Ogre::FrameEvent& event);
+			virtual bool frameEnded(const Ogre::FrameEvent& event);
+
+			virtual bool keyPressed(const OIS::KeyEvent& event) = 0;
+			virtual bool keyReleased(const OIS::KeyEvent& event) = 0;
+
+			virtual bool mouseMoved(const OIS::MouseEvent& event) = 0;
+			virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId) = 0;
+			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId) = 0;
+
+		public:
 
 			Scene();
 			virtual ~Scene() = 0;

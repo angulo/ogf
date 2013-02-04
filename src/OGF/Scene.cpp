@@ -21,6 +21,24 @@
 
 using namespace OGF;
 
+void
+Scene::preload()
+{
+	// Default implementation doesn't preload anything
+}
+
+bool
+Scene::frameStarted(const Ogre::FrameEvent& event)
+{
+	return true;
+}
+
+bool
+Scene::frameEnded(const Ogre::FrameEvent& event)
+{
+	return true;
+}
+
 Scene::Scene()
 {
 
