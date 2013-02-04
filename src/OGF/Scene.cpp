@@ -1,5 +1,5 @@
 /*
- * main.cc
+ * Scene.h -- Base scene implementation
  *
  * Copyright (C) 2013 Javier Angulo Luceron <javier.angulo1@gmail.com>
  * 
@@ -17,14 +17,11 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
+#include "Scene.h"
 
-namespace OGF {
+using namespace OGF;
 
-	class Test {
-		public:
-			Test() {}
-			~Test() {}
-	};
+Scene::Scene()
+{
 
-};
+}
