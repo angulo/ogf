@@ -51,7 +51,8 @@ namespace OGF {
 
 			Scene();
 			virtual ~Scene() = 0;
-	};
+
+	}; // Class Scene
 
 }; // Namespace OGF
 
