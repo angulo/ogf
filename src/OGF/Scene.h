@@ -27,7 +27,10 @@ namespace OGF {
 	
 	class Scene {
 		
-		protected:
+		public:
+
+			Scene();
+			virtual ~Scene() = 0;
 			
 			virtual void preload();
 
@@ -46,12 +49,6 @@ namespace OGF {
 			virtual bool mouseMoved(const OIS::MouseEvent& event) = 0;
 			virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId) = 0;
 			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId) = 0;
-
-		public:
-
-			Scene();
-			virtual ~Scene() = 0;
-
 	}; // Class Scene
 
 }; // Namespace OGF

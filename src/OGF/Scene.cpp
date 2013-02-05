@@ -21,6 +21,11 @@
 
 using namespace OGF;
 
+Scene::Scene()
+{
+
+}
+
 void
 Scene::preload()
 {
@@ -37,9 +42,4 @@ bool
 Scene::frameEnded(const Ogre::FrameEvent& event)
 {
 	return true;
-}
-
-Scene::Scene()
-{
-
 }

@@ -28,6 +28,7 @@
 #include <OIS/OIS.h>
 
 #include "Types.h"
+#include "ISceneFactory.h"
 #include "Scene.h"
 
 namespace OGF {
@@ -39,7 +40,10 @@ namespace OGF {
 		private:
 
 			SceneMap _sceneMap;
+			ISceneFactory *_sceneFactory;
 			std::stack<Scene *> _sceneStore;
+
+			Scene * _getScenePtr(SceneId sceneId);
 
 			bool keyPressed(const OIS::KeyEvent &event);
 			bool keyReleased(const OIS::KeyEvent &event);
@@ -59,15 +63,17 @@ namespace OGF {
 			static SceneController& getSingleton();
 			static SceneController* getSingletonPtr();
 
-			void preload(SceneId scene);
+			void initialize(ISceneFactory *sceneFactory);
 
-			void add(SceneId scene);
-			void remove(SceneId scene);
+			void preload(SceneId sceneId);
 
-			void push(SceneId scene);
+			void add(SceneId sceneId);
+			void remove(SceneId sceneId);
+
+			void push(SceneId sceneId);
 			void pop();
 
-			void replace(SceneId newScene, SceneId oldScene = SceneQuery::ALL);
+			void replace(SceneId sceneId);
 
 	}; // Class SceneController
 

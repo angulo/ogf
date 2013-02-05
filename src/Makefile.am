@@ -12,9 +12,17 @@ AM_CFLAGS =\
 
 lib_LTLIBRARIES = libogf-0.1.la
 
-libogf_0_1_la_SOURCES = OGF/Scene.cpp 
+libogf_0_1_la_SOURCES =\
+OGF/Scene.cpp \
+OGF/SceneController.cpp
+
 libogf_0_1_la_LDFLAGS = -version-info $(LIBRARY_VERSION)
 libogf_0_1_la_LIBADD = $(OGF_LIBS)
 
 library_includedir = $(includedir)/OGF/
-library_include_HEADERS = OGF.h OGF/Scene.h
+
+library_include_HEADERS =\
+OGF.h \
+OGF/Scene.h \
+OGF/SceneController.h \
+OGF/Types.h

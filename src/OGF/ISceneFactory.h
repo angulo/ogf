@@ -1,5 +1,5 @@
 /*
- * Types.h -- Framework common data types
+ * ISceneFactory.h -- Scene factory interface header file.
  *
  * Copyright (C) 2013 Javier Angulo Luceron <javier.angulo1@gmail.com>
  * 
@@ -17,13 +17,24 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __TYPES_H__
-#define __TYPES_H__
+#ifndef __ISCENE_FACTORY_H__
+#define __ISCENE_FACTORY_H__
+
+#include "Scene.h"
+#include "Types.h"
 
 namespace OGF {
 	
-	typedef Ogre::int32 SceneId;
+	class ISceneFactory {
+		
+		protected:
 
+			virtual ~ISceneFactory();
+		
+		public:
+
+			virtual Scene * create(SceneId sceneId) = 0;
+	};
 };
 
 #endif

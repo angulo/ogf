@@ -21,6 +21,18 @@
 
 using namespace OGF;
 
+Scene *
+SceneController::_getScenePtr(SceneId sceneId)
+{
+	Scene *scene;
+	if (_sceneMap.find(sceneId) == _sceneMap.end()) {
+		scene = _sceneFactory->create(sceneId);
+		_sceneMap[sceneId] = scene;
+	}
+
+	return scene;
+}
+
 bool
 SceneController::keyPressed(const OIS::KeyEvent &event)
 {
@@ -54,48 +66,73 @@ SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID 
 SceneController&
 SceneController::getSingleton()
 {
-
+	return *msSingleton;
 }
 
 
 SceneController *
 SceneController::getSingletonPtr()
 {
-
+	return msSingleton;
 }
 
 void
-SceneController::preload(SceneId scene)
+SceneController::initialize(ISceneFactory *sceneFactory)
 {
-
+	_sceneFactory = sceneFactory;
 }
 
 void
-SceneController::add(SceneId scene)
+SceneController::preload(SceneId sceneId)
 {
-
+	Scene *scene = _getScenePtr(sceneId);
+	scene->preload();
 }
 
 void
-SceneController::remove(SceneId scene)
+SceneController::add(SceneId sceneId)
 {
-
+	// TODO
 }
 
 void
-SceneController::push(SceneId scene)
+SceneController::remove(SceneId sceneId)
 {
+	// TODO
+}
 
+void
+SceneController::push(SceneId sceneId)
+{
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->pause();
+	}
+
+	_sceneStore.push(_getScenePtr(sceneId));
+	_sceneStore.top()->enter();
 }
 
 void
 SceneController::pop()
 {
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->exit();
+		_sceneStore.pop();
+	}
 
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->resume();
+	}
 }
 
 void
-SceneController::replace(SceneId newScene, SceneId oldScene = SceneQuery::ALL)
+SceneController::replace(SceneId sceneId)
 {
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->exit();
+		_sceneStore.pop();
+	}
 
+	_sceneStore.push(_getScenePtr(sceneId));
+	_sceneStore.top()->enter();
 }
