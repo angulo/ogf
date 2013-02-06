@@ -30,6 +30,7 @@
 #include "Types.h"
 #include "ISceneFactory.h"
 #include "Scene.h"
+#include "InputManager.h"
 
 namespace OGF {
 
@@ -43,7 +44,10 @@ namespace OGF {
 			ISceneFactory *_sceneFactory;
 			std::stack<Scene *> _sceneStore;
 
-			Scene * _getScenePtr(SceneId sceneId);
+			Scene * _getScenePtr(const SceneId &sceneId);
+
+			void _loadResources(const std::string &resourcesFilePath);
+			bool _configureRenderWindow(const std::string &windowTitle);
 
 			bool keyPressed(const OIS::KeyEvent &event);
 			bool keyReleased(const OIS::KeyEvent &event);
@@ -56,14 +60,13 @@ namespace OGF {
 
 			Ogre::Root* _root;
 			Ogre::RenderWindow* _renderWindow;
-			Ogre::SceneManager* _sceneManager;
 
 		public:
 
 			static SceneController& getSingleton();
 			static SceneController* getSingletonPtr();
 
-			void initialize(ISceneFactory *sceneFactory);
+			void initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle);
 
 			void preload(SceneId sceneId);
 

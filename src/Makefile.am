@@ -13,6 +13,7 @@ AM_CFLAGS =\
 lib_LTLIBRARIES = libogf-0.1.la
 
 libogf_0_1_la_SOURCES =\
+OGF/InputManager.cpp \
 OGF/ISceneFactory.cpp \
 OGF/Scene.cpp \
 OGF/SceneController.cpp
@@ -24,6 +25,7 @@ library_includedir = $(includedir)/OGF/
 
 library_include_HEADERS =\
 OGF.h \
+OGF/InputManager.h \
 OGF/ISceneFactory.h \
 OGF/Scene.h \
 OGF/SceneController.h \

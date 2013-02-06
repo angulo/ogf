@@ -21,11 +21,15 @@
 
 using namespace OGF;
 
+template<> SceneController * Ogre::Singleton<SceneController>::msSingleton = NULL;
+
 Scene *
-SceneController::_getScenePtr(SceneId sceneId)
+SceneController::_getScenePtr(const SceneId &sceneId)
 {
-	Scene *scene;
-	if (_sceneMap.find(sceneId) == _sceneMap.end()) {
+	Scene *scene = NULL;
+	if (_sceneFactory == NULL) {
+		std::cerr << "[OGF::ERROR] Class: SceneController, Method: _getScenePtr, Message: Scene factory not initialized" << std::endl;
+	} else if (_sceneMap.find(sceneId) == _sceneMap.end()) {
 		scene = _sceneFactory->create(sceneId);
 		_sceneMap[sceneId] = scene;
 	}
@@ -33,34 +37,102 @@ SceneController::_getScenePtr(SceneId sceneId)
 	return scene;
 }
 
+void
+SceneController::_loadResources(const std::string &resourcesFilePath)
+{
+  Ogre::ConfigFile resourcesFile;
+  resourcesFile.load(resourcesFilePath);
+  
+  Ogre::ConfigFile::SectionIterator iterator = resourcesFile.getSectionIterator();
+  Ogre::String sectionString;
+
+  while (iterator.hasMoreElements()) {
+    sectionString = iterator.peekNextKey();
+
+    Ogre::ConfigFile::SettingsMultiMap *settings = iterator.getNext();
+    Ogre::ConfigFile::SettingsMultiMap::iterator i;
+
+    for (i = settings->begin(); i != settings->end(); ++i) {
+      Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+				i->second, i->first, sectionString
+			);	
+    }
+  }
+
+  Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+}
+
+bool
+SceneController::_configureRenderWindow(const std::string &windowTitle)
+{
+	if (!_root->restoreConfig()) {
+		if (!_root->showConfigDialog()) {
+			return false;
+		}
+	}
+
+	_renderWindow = _root->initialise(true, windowTitle);
+	return true;
+}
+
 bool
 SceneController::keyPressed(const OIS::KeyEvent &event)
 {
+	bool result = true;
 
+	if (!_sceneStore.empty()) {
+		result = _sceneStore.top()->keyPressed(event);
+	}
+
+	return result;
 }
 
 bool
 SceneController::keyReleased(const OIS::KeyEvent &event)
 {
+	bool result = true;
 
+	if (!_sceneStore.empty()) {
+		result = _sceneStore.top()->keyReleased(event);
+	}
+
+	return result;
 }
 
 bool
 SceneController::mouseMoved(const OIS::MouseEvent &event)
 {
+	bool result = true;
 
+	if (!_sceneStore.empty()) {
+		result = _sceneStore.top()->mouseMoved(event);
+	}
+
+	return result;
 }
 
 bool
 SceneController::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
+	bool result = true;
 
+	if (!_sceneStore.empty()) {
+		result = _sceneStore.top()->mousePressed(event, buttonId);
+	}
+
+	return result;
 }
 
 bool
 SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
+	bool result = true;
 
+	if (!_sceneStore.empty()) {
+		result = _sceneStore.top()->mouseReleased(event, buttonId);
+	}
+
+	return result;
 }
 
 SceneController&
@@ -77,9 +149,22 @@ SceneController::getSingletonPtr()
 }
 
 void
-SceneController::initialize(ISceneFactory *sceneFactory)
+SceneController::initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle)
 {
 	_sceneFactory = sceneFactory;
+
+	_root = Ogre::Root::getSingletonPtr();
+
+	_loadResources(resourcesFilePath);
+
+	if (!_configureRenderWindow(windowTitle))
+		return;
+
+	InputManager *inputManager = InputManager::getSingletonPtr();
+	inputManager->initialize(_renderWindow, this, this);
+
+	_root->addFrameListener(this);
+	_root->startRendering();
 }
 
 void
