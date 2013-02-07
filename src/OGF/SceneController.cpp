@@ -76,63 +76,47 @@ SceneController::_configureRenderWindow(const std::string &windowTitle)
 }
 
 bool
+SceneController::frameStarted(const Ogre::FrameEvent &event)
+{
+	InputManager::getSingletonPtr()->capture();
+
+	return _sceneStore.empty() || _sceneStore.top()->frameStarted(event);
+}
+
+bool
+SceneController::frameEnded(const Ogre::FrameEvent &event)
+{
+	return _sceneStore.empty() || _sceneStore.top()->frameEnded(event);
+}
+
+bool
 SceneController::keyPressed(const OIS::KeyEvent &event)
 {
-	bool result = true;
-
-	if (!_sceneStore.empty()) {
-		result = _sceneStore.top()->keyPressed(event);
-	}
-
-	return result;
+	return _sceneStore.empty() || _sceneStore.top()->keyPressed(event);
 }
 
 bool
 SceneController::keyReleased(const OIS::KeyEvent &event)
 {
-	bool result = true;
-
-	if (!_sceneStore.empty()) {
-		result = _sceneStore.top()->keyReleased(event);
-	}
-
-	return result;
+	return _sceneStore.empty() || _sceneStore.top()->keyReleased(event);
 }
 
 bool
 SceneController::mouseMoved(const OIS::MouseEvent &event)
 {
-	bool result = true;
-
-	if (!_sceneStore.empty()) {
-		result = _sceneStore.top()->mouseMoved(event);
-	}
-
-	return result;
+	return _sceneStore.empty() || _sceneStore.top()->mouseMoved(event);
 }
 
 bool
 SceneController::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
-	bool result = true;
-
-	if (!_sceneStore.empty()) {
-		result = _sceneStore.top()->mousePressed(event, buttonId);
-	}
-
-	return result;
+	return _sceneStore.empty() || _sceneStore.top()->mousePressed(event, buttonId);
 }
 
 bool
 SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
-	bool result = true;
-
-	if (!_sceneStore.empty()) {
-		result = _sceneStore.top()->mouseReleased(event, buttonId);
-	}
-
-	return result;
+	return _sceneStore.empty() || _sceneStore.top()->mouseReleased(event, buttonId);
 }
 
 SceneController&
@@ -169,12 +153,12 @@ SceneController::initialize(ISceneFactory *sceneFactory, const std::string &reso
 	if (!_configureRenderWindow(windowTitle))
 		return;
 
-	InputManager *inputManager = InputManager::getSingletonPtr();
-	inputManager->initialize(_renderWindow, this, this);
-
 	_root->addFrameListener(this);
 
 	push(initialScene);
+
+	InputManager *inputManager = InputManager::getSingletonPtr();
+	inputManager->initialize(_renderWindow, this, this);
 
 	_root->startRendering();
 }

@@ -49,6 +49,9 @@ namespace OGF {
 			void _loadResources(const std::string &resourcesFilePath);
 			bool _configureRenderWindow(const std::string &windowTitle);
 
+			bool frameStarted(const Ogre::FrameEvent &event);
+			bool frameEnded(const Ogre::FrameEvent &event);
+
 			bool keyPressed(const OIS::KeyEvent &event);
 			bool keyReleased(const OIS::KeyEvent &event);
 

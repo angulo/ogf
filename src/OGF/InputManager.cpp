@@ -26,66 +26,45 @@ template<> InputManager * Ogre::Singleton<InputManager>::msSingleton = 0;
 bool
 InputManager::keyPressed(const OIS::KeyEvent &event)
 {
-	bool result = true;
-
-	if (_keyListener) 
-		result = _keyListener->keyPressed(event);
-
-	return result;
+	return _keyListener == NULL || _keyListener->keyPressed(event);
 }
 
 bool
 InputManager::keyReleased(const OIS::KeyEvent &event)
 {
-	bool result = true;
-
-	if (_keyListener) 
-		result = _keyListener->keyReleased(event);
-
-	return result;
+	return _keyListener == NULL || _keyListener->keyReleased(event);
 }
 
 bool
 InputManager::mouseMoved(const OIS::MouseEvent &event)
 {
-	bool result = true;
-
-	if (_mouseListener) 
-		result = _mouseListener->mouseMoved(event);
-
-	return result;
+	return _mouseListener == NULL || _mouseListener->mouseMoved(event);
 }
 
 bool
 InputManager::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
-	bool result = true;
-
-	if (_mouseListener) 
-		result = _mouseListener->mousePressed(event, buttonId);
-
-	return result;
+	return _mouseListener == NULL || _mouseListener->mousePressed(event, buttonId);
 }
 
 bool
 InputManager::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
-	bool result = true;
-
-	if (_mouseListener) 
-		result = _mouseListener->mouseReleased(event, buttonId);
-
-	return result;
+	return _mouseListener == NULL || _mouseListener->mouseReleased(event, buttonId);
 }
 
 InputManager::InputManager()
 {
-
+	_eventSource = NULL;
+	_keyListener = NULL;
+	_mouseListener = NULL;
+	_mouse = NULL;
+	_keyboard = NULL;
 }
 
 InputManager::~InputManager()
 {
-	if (_eventSource) {
+	if (_eventSource != NULL) {
 		if (_keyboard) {
 			_eventSource->destroyInputObject(_keyboard);
 			_keyboard = NULL;
@@ -131,7 +110,7 @@ InputManager::initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *key
 	_keyListener = keyListener;
 	_mouseListener = mouseListener;
 
-	if (_eventSource) {
+	if (_eventSource == NULL) {
 		OIS::ParamList windowParamList;
 		size_t windowHandler = 0;
 		_renderWindow->getCustomAttribute("WINDOW", &windowHandler);
@@ -167,9 +146,9 @@ InputManager::updateMouseLimits()
 void
 InputManager::capture()
 {
-	if (_mouse)
+	if (_mouse != NULL)
 		_mouse->capture();
 
-	if (_keyboard)
+	if (_keyboard != NULL)
 		_keyboard->capture();
 }
