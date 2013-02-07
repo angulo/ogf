@@ -138,6 +138,10 @@ SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID 
 SceneController&
 SceneController::getSingleton()
 {
+	if (!msSingleton) {
+		SceneController *instance = new SceneController();
+	}
+
 	return *msSingleton;
 }
 
@@ -145,6 +149,10 @@ SceneController::getSingleton()
 SceneController *
 SceneController::getSingletonPtr()
 {
+	if (!msSingleton) {
+		SceneController *instance = new SceneController();
+	}
+
 	return msSingleton;
 }
 
@@ -161,7 +169,7 @@ SceneController::initialize(ISceneFactory *sceneFactory, const std::string &reso
 	if (!_configureRenderWindow(windowTitle))
 		return;
 
-	InputManager *inputManager = new InputManager();
+	InputManager *inputManager = InputManager::getSingletonPtr();
 	inputManager->initialize(_renderWindow, this, this);
 
 	_root->addFrameListener(this);

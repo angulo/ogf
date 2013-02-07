@@ -107,12 +107,20 @@ InputManager::~InputManager()
 InputManager &
 InputManager::getSingleton()
 {
+	if (!msSingleton) {
+		InputManager *instance = new InputManager();
+	}
+
 	return *msSingleton;
 }
 
 InputManager *
 InputManager::getSingletonPtr()
 {
+	if (!msSingleton) {
+		InputManager *instance = new InputManager();
+	}
+
 	return msSingleton;
 }
 
