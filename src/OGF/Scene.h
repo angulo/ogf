@@ -43,12 +43,13 @@ namespace OGF {
 			virtual bool frameStarted(const Ogre::FrameEvent& event);
 			virtual bool frameEnded(const Ogre::FrameEvent& event);
 
-			virtual bool keyPressed(const OIS::KeyEvent& event) = 0;
-			virtual bool keyReleased(const OIS::KeyEvent& event) = 0;
+			virtual bool keyPressed(const OIS::KeyEvent& event);
+			virtual bool keyReleased(const OIS::KeyEvent& event);
 
-			virtual bool mouseMoved(const OIS::MouseEvent& event) = 0;
-			virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId) = 0;
-			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId) = 0;
+			virtual bool mouseMoved(const OIS::MouseEvent& event);
+			virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
+			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
+
 	}; // Class Scene
 
 }; // Namespace OGF

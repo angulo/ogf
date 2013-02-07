@@ -45,10 +45,10 @@ namespace OGF {
 			bool mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId);
 			bool mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId);
 
+		public:
+
 			InputManager();
 			virtual ~InputManager();
-
-		public:
 
 			static InputManager & getSingleton();
 			static InputManager * getSingletonPtr();

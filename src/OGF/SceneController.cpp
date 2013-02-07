@@ -21,7 +21,7 @@
 
 using namespace OGF;
 
-template<> SceneController * Ogre::Singleton<SceneController>::msSingleton = NULL;
+template<> SceneController * Ogre::Singleton<SceneController>::msSingleton = 0;
 
 Scene *
 SceneController::_getScenePtr(const SceneId &sceneId)
@@ -149,21 +149,25 @@ SceneController::getSingletonPtr()
 }
 
 void
-SceneController::initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle)
+SceneController::initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath,
+	const std::string &windowTitle, const SceneId &initialScene)
 {
 	_sceneFactory = sceneFactory;
 
-	_root = Ogre::Root::getSingletonPtr();
+	_root = new Ogre::Root();
 
 	_loadResources(resourcesFilePath);
 
 	if (!_configureRenderWindow(windowTitle))
 		return;
 
-	InputManager *inputManager = InputManager::getSingletonPtr();
+	InputManager *inputManager = new InputManager();
 	inputManager->initialize(_renderWindow, this, this);
 
 	_root->addFrameListener(this);
+
+	push(initialScene);
+
 	_root->startRendering();
 }
 

@@ -23,7 +23,10 @@ using namespace OGF;
 
 Scene::Scene()
 {
+}
 
+Scene::~Scene()
+{
 }
 
 void
@@ -43,3 +46,35 @@ Scene::frameEnded(const Ogre::FrameEvent& event)
 {
 	return true;
 }
+
+bool
+Scene::keyPressed(const OIS::KeyEvent &event)
+{
+	return true;
+}
+
+bool
+Scene::keyReleased(const OIS::KeyEvent &event)
+{
+	return true;
+}
+
+bool
+Scene::mouseMoved(const OIS::MouseEvent &event)
+{
+	return true;
+}
+
+bool
+Scene::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
+{
+	return true;
+}
+
+bool
+Scene::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
+{
+	return true;
+}
+
+

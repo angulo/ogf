@@ -21,7 +21,7 @@
 
 using namespace OGF;
 
-template<> InputManager * Ogre::Singleton<InputManager>::msSingleton = NULL;
+template<> InputManager * Ogre::Singleton<InputManager>::msSingleton = 0;
 
 bool
 InputManager::keyPressed(const OIS::KeyEvent &event)

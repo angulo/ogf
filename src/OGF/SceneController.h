@@ -66,7 +66,7 @@ namespace OGF {
 			static SceneController& getSingleton();
 			static SceneController* getSingletonPtr();
 
-			void initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle);
+			void initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle, const SceneId &initialScene);
 
 			void preload(SceneId sceneId);
 
