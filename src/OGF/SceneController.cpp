@@ -29,9 +29,14 @@ SceneController::_getScenePtr(const SceneId &sceneId)
 	Scene *scene = NULL;
 	if (_sceneFactory == NULL) {
 		std::cerr << "[OGF::ERROR] Class: SceneController, Method: _getScenePtr, Message: Scene factory not initialized" << std::endl;
-	} else if (_sceneMap.find(sceneId) == _sceneMap.end()) {
-		scene = _sceneFactory->create(sceneId);
-		_sceneMap[sceneId] = scene;
+	} else {
+		SceneMap::iterator it = _sceneMap.find(sceneId);
+		if (it == _sceneMap.end()) {
+			scene = _sceneFactory->create(sceneId);
+			_sceneMap[sceneId] = scene;
+		} else {
+			scene = it->second;
+		}
 	}
 
 	return scene;
