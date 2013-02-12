@@ -15,6 +15,8 @@ lib_LTLIBRARIES = libogf-0.1.la
 libogf_0_1_la_SOURCES =\
 OGF/InputManager.cpp \
 OGF/ISceneFactory.cpp \
+OGF/Log.cpp \
+OGF/LogFactory.cpp \
 OGF/Scene.cpp \
 OGF/SceneController.cpp
 
@@ -27,6 +29,8 @@ library_include_HEADERS =\
 OGF.h \
 OGF/InputManager.h \
 OGF/ISceneFactory.h \
+OGF/Log.h \
+OGF/LogFactory.h \
 OGF/Scene.h \
 OGF/SceneController.h \
 OGF/Types.h

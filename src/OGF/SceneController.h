@@ -31,6 +31,7 @@
 #include "ISceneFactory.h"
 #include "Scene.h"
 #include "InputManager.h"
+#include "LogFactory.h"
 
 namespace OGF {
 
@@ -61,13 +62,13 @@ namespace OGF {
 		
 		protected:
 
-			Ogre::Root* _root;
-			Ogre::RenderWindow* _renderWindow;
+			Ogre::Root *_root;
+			Ogre::RenderWindow *_renderWindow;
 
 		public:
 
-			static SceneController& getSingleton();
-			static SceneController* getSingletonPtr();
+			static SceneController & getSingleton();
+			static SceneController * getSingletonPtr();
 
 			void initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle, const SceneId &initialScene);
 
@@ -83,6 +84,6 @@ namespace OGF {
 
 	}; // Class SceneController
 
-}; // Namespace OFG
+}; // Namespace OGF
 
 #endif

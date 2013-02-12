@@ -1,5 +1,5 @@
 /*
- * Types.h -- Framework common data types
+ * LogFactory.h -- Factory of logs header file.
  *
  * Copyright (C) 2013 Javier Angulo Luceron <javier.angulo1@gmail.com>
  * 
@@ -17,15 +17,46 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __TYPES_H__
-#define __TYPES_H__
+#ifndef __LOG_FACTORY_H__
+#define __LOG_FACTORY_H__
 
-#include <OGRE/OgrePlatform.h>
+#include <fstream>
+#include <ostream>
+#include <map>
+
+#include <OGRE/OgreSingleton.h>
+#include <OGRE/OgreStringConverter.h>
+
+#include "Types.h"
+#include "Log.h"
 
 namespace OGF {
 	
-	typedef Ogre::int32 SceneId;
-	typedef Ogre::int32 LogId;
-};
+	typedef std::map<LogId, Log *> LogMap;
+
+	enum DefaultLogs {
+		LOG_OUT = -2,
+		LOG_ERR = -1
+	};
+
+	class LogFactory : public Ogre::Singleton<LogFactory> {
+
+		private:
+			
+			LogMap _logMap; 	
+			
+		public:
+
+			LogFactory();
+			~LogFactory();
+
+			static LogFactory & getSingleton();
+			static LogFactory * getSingletonPtr();
+			
+			Log * create(const LogId &id, const std::string &path);
+			Log * get(const LogId &id);
+
+	}; // Class LogFactory
+}; // Namespace OGF
 
 #endif
