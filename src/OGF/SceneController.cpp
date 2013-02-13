@@ -44,44 +44,6 @@ SceneController::_getScenePtr(const SceneId &sceneId)
 	return scene;
 }
 
-void
-SceneController::_loadResources(const std::string &resourcesFilePath)
-{
-  Ogre::ConfigFile resourcesFile;
-  resourcesFile.load(resourcesFilePath);
-  
-  Ogre::ConfigFile::SectionIterator iterator = resourcesFile.getSectionIterator();
-  Ogre::String sectionString;
-
-  while (iterator.hasMoreElements()) {
-    sectionString = iterator.peekNextKey();
-
-    Ogre::ConfigFile::SettingsMultiMap *settings = iterator.getNext();
-    Ogre::ConfigFile::SettingsMultiMap::iterator i;
-
-    for (i = settings->begin(); i != settings->end(); ++i) {
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
-				i->second, i->first, sectionString
-			);	
-    }
-  }
-
-  Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-}
-
-bool
-SceneController::_configureRenderWindow(const std::string &windowTitle)
-{
-	if (!_root->restoreConfig()) {
-		if (!_root->showConfigDialog()) {
-			return false;
-		}
-	}
-
-	_renderWindow = _root->initialise(true, windowTitle);
-	return true;
-}
-
 bool
 SceneController::frameStarted(const Ogre::FrameEvent &event)
 {
@@ -148,26 +110,10 @@ SceneController::getSingletonPtr()
 }
 
 void
-SceneController::initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath,
-	const std::string &windowTitle, const SceneId &initialScene)
+SceneController::initialize(ISceneFactory *sceneFactory, const SceneId &initialScene)
 {
 	_sceneFactory = sceneFactory;
-
-	_root = new Ogre::Root();
-
-	_loadResources(resourcesFilePath);
-
-	if (!_configureRenderWindow(windowTitle))
-		return;
-
-	_root->addFrameListener(this);
-
 	push(initialScene);
-
-	InputManager *inputManager = InputManager::getSingletonPtr();
-	inputManager->initialize(_renderWindow, this, this);
-
-	_root->startRendering();
 }
 
 void

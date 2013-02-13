@@ -47,9 +47,6 @@ namespace OGF {
 
 			Scene * _getScenePtr(const SceneId &sceneId);
 
-			void _loadResources(const std::string &resourcesFilePath);
-			bool _configureRenderWindow(const std::string &windowTitle);
-
 			bool frameStarted(const Ogre::FrameEvent &event);
 			bool frameEnded(const Ogre::FrameEvent &event);
 
@@ -70,7 +67,7 @@ namespace OGF {
 			static SceneController & getSingleton();
 			static SceneController * getSingletonPtr();
 
-			void initialize(ISceneFactory *sceneFactory, const std::string &resourcesFilePath, const std::string &windowTitle, const SceneId &initialScene);
+			void initialize(ISceneFactory *sceneFactory, const SceneId &initialScene);
 
 			void preload(SceneId sceneId);
 
