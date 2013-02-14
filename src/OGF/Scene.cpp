@@ -21,10 +21,6 @@
 
 using namespace OGF;
 
-Scene::Scene()
-{
-}
-
 Scene::~Scene()
 {
 }
@@ -33,6 +29,58 @@ void
 Scene::preload()
 {
 	// Default implementation doesn't preload anything
+}
+
+void
+Scene::pause()
+{
+}
+
+void
+Scene::resume()
+{
+}
+
+bool
+Scene::frameStartedFacade(const Ogre::FrameEvent& event)
+{
+	return frameStarted(event);
+}
+
+bool
+Scene::frameEndedFacade(const Ogre::FrameEvent& event)
+{
+	return frameEnded(event);
+}
+
+bool
+Scene::keyPressedFacade(const OIS::KeyEvent &event)
+{
+	return keyPressed(event);
+}
+
+bool
+Scene::keyReleasedFacade(const OIS::KeyEvent &event)
+{
+	return keyReleased(event);
+}
+
+bool
+Scene::mouseMovedFacade(const OIS::MouseEvent &event)
+{
+	return mouseMoved(event);
+}
+
+bool
+Scene::mousePressedFacade(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
+{
+	return mousePressed(event, buttonId);
+}
+
+bool
+Scene::mouseReleasedFacade(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
+{
+	return mouseReleased(event, buttonId);
 }
 
 bool
@@ -46,6 +94,7 @@ Scene::frameEnded(const Ogre::FrameEvent& event)
 {
 	return true;
 }
+
 
 bool
 Scene::keyPressed(const OIS::KeyEvent &event)
@@ -76,5 +125,3 @@ Scene::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
 	return true;
 }
-
-

@@ -63,6 +63,17 @@ Bootstrap::_configureRenderWindow(const std::string &windowTitle)
 	return true;
 }
 
+void
+Bootstrap::_initGui()
+{
+	CEGUI::OgreRenderer::bootstrapSystem();
+	
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+}
+
 Bootstrap&
 Bootstrap::getSingleton()
 {
@@ -99,6 +110,8 @@ Bootstrap::init(const std::string &resourcesFilePath, const std::string &windowT
 	sceneController->initialize(sceneFactory, initialScene);
 
 	InputManager::getSingletonPtr()->initialize(root->getAutoCreatedWindow(), sceneController, sceneController);
+
+	_initGui();
 
 	return true;
 }

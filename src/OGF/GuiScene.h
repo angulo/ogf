@@ -1,5 +1,5 @@
 /*
- * Scene.h -- Base scene header file
+ * GuiScene.h -- GUI Scene base class header file.
  *
  * Copyright (C) 2013 Javier Angulo Luceron <javier.angulo1@gmail.com>
  * 
@@ -17,31 +17,32 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __SCENE_H__
-#define __SCENE_H__
+#ifndef __GUI_SCENE_H__
+#define __GUI_SCENE_H__
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
+#include <CEGUI/CEGUI.h>
+
+#include "Scene.h"
 
 namespace OGF {
 	
-	class Scene {
+	class GuiScene : public Scene {
 		
+		protected:
+
+			CEGUI::MouseButton _convertMouseButton(OIS::MouseButtonID id);
+
 		public:
 
-			virtual ~Scene() = 0;
+			virtual ~GuiScene() = 0;
 			
-			virtual void preload();
-
 			virtual void enter() = 0;
 			virtual void exit() = 0;
 
-			virtual void pause();
-			virtual void resume();
-
 			// Facade methods to allow specific base implementations
 			virtual bool frameStartedFacade(const Ogre::FrameEvent& event);
-			virtual bool frameEndedFacade(const Ogre::FrameEvent& event);
 
 			virtual bool keyPressedFacade(const OIS::KeyEvent& event);
 			virtual bool keyReleasedFacade(const OIS::KeyEvent& event);
@@ -50,18 +51,7 @@ namespace OGF {
 			virtual bool mousePressedFacade(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 			virtual bool mouseReleasedFacade(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 
-			virtual bool frameStarted(const Ogre::FrameEvent& event);
-			virtual bool frameEnded(const Ogre::FrameEvent& event);
-
-			virtual bool keyPressed(const OIS::KeyEvent& event);
-			virtual bool keyReleased(const OIS::KeyEvent& event);
-
-			virtual bool mouseMoved(const OIS::MouseEvent& event);
-			virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
-			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
-
-	}; // Class Scene
-
+	}; // Class GuiScene
 }; // Namespace OGF
 
 #endif

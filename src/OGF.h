@@ -2,6 +2,7 @@
 #define __OGF_H__
 
 #include "Bootstrap.h"
+#include "GuiScene.h"
 #include "InputManager.h"
 #include "ISceneFactory.h"
 #include "LogFactory.h"

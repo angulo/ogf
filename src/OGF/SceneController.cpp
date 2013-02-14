@@ -49,43 +49,43 @@ SceneController::frameStarted(const Ogre::FrameEvent &event)
 {
 	InputManager::getSingletonPtr()->capture();
 
-	return _sceneStore.empty() || _sceneStore.top()->frameStarted(event);
+	return _sceneStore.empty() || _sceneStore.top()->frameStartedFacade(event);
 }
 
 bool
 SceneController::frameEnded(const Ogre::FrameEvent &event)
 {
-	return _sceneStore.empty() || _sceneStore.top()->frameEnded(event);
+	return _sceneStore.empty() || _sceneStore.top()->frameEndedFacade(event);
 }
 
 bool
 SceneController::keyPressed(const OIS::KeyEvent &event)
 {
-	return _sceneStore.empty() || _sceneStore.top()->keyPressed(event);
+	return _sceneStore.empty() || _sceneStore.top()->keyPressedFacade(event);
 }
 
 bool
 SceneController::keyReleased(const OIS::KeyEvent &event)
 {
-	return _sceneStore.empty() || _sceneStore.top()->keyReleased(event);
+	return _sceneStore.empty() || _sceneStore.top()->keyReleasedFacade(event);
 }
 
 bool
 SceneController::mouseMoved(const OIS::MouseEvent &event)
 {
-	return _sceneStore.empty() || _sceneStore.top()->mouseMoved(event);
+	return _sceneStore.empty() || _sceneStore.top()->mouseMovedFacade(event);
 }
 
 bool
 SceneController::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
-	return _sceneStore.empty() || _sceneStore.top()->mousePressed(event, buttonId);
+	return _sceneStore.empty() || _sceneStore.top()->mousePressedFacade(event, buttonId);
 }
 
 bool
 SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
-	return _sceneStore.empty() || _sceneStore.top()->mouseReleased(event, buttonId);
+	return _sceneStore.empty() || _sceneStore.top()->mouseReleasedFacade(event, buttonId);
 }
 
 SceneController&
