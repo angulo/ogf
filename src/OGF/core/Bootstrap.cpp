@@ -125,6 +125,11 @@ Bootstrap::run()
 void
 Bootstrap::shutdown()
 {
+	delete SceneController::getSingletonPtr();
+	delete InputManager::getSingletonPtr();
+	delete LogFactory::getSingletonPtr();
+	delete Ogre::Root::getSingletonPtr();
 
+	delete this;
 }
 

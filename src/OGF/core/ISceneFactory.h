@@ -27,12 +27,9 @@ namespace OGF {
 	
 	class ISceneFactory {
 		
-		protected:
-
-			virtual ~ISceneFactory();
-		
 		public:
 
+			virtual ~ISceneFactory();
 			virtual Scene * create(SceneId sceneId) = 0;
 	};
 };

@@ -88,6 +88,21 @@ SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID 
 	return _sceneStore.empty() || _sceneStore.top()->mouseReleasedFacade(event, buttonId);
 }
 
+SceneController::~SceneController()
+{
+	size_t storeSize = _sceneStore.size();
+	for (size_t i = 0; i < storeSize; i++) {
+		_sceneStore.top()->exit();
+		_sceneStore.pop();
+	}
+
+	for (SceneMap::iterator it = _sceneMap.begin(); it != _sceneMap.end(); it++) {
+		delete it->second;	
+	}
+
+	delete _sceneFactory;
+}
+
 SceneController&
 SceneController::getSingleton()
 {

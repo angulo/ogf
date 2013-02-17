@@ -13,14 +13,14 @@ AM_CFLAGS =\
 lib_LTLIBRARIES = libogf-0.1.la
 
 libogf_0_1_la_SOURCES =\
-OGF/Bootstrap.cpp \
-OGF/GuiScene.cpp \
-OGF/InputManager.cpp \
-OGF/ISceneFactory.cpp \
-OGF/Log.cpp \
-OGF/LogFactory.cpp \
-OGF/Scene.cpp \
-OGF/SceneController.cpp
+OGF/core/Bootstrap.cpp \
+OGF/core/GuiScene.cpp \
+OGF/core/InputManager.cpp \
+OGF/core/ISceneFactory.cpp \
+OGF/core/Log.cpp \
+OGF/core/LogFactory.cpp \
+OGF/core/Scene.cpp \
+OGF/core/SceneController.cpp
 
 libogf_0_1_la_LDFLAGS = -version-info $(LIBRARY_VERSION)
 libogf_0_1_la_LIBADD = $(OGRE_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS) $(OIS_LIBS)
@@ -29,12 +29,12 @@ library_includedir = $(includedir)/OGF/
 
 library_include_HEADERS =\
 OGF.h \
-OGF/Bootstrap.h \
-OGF/GuiScene.h \
-OGF/InputManager.h \
-OGF/ISceneFactory.h \
-OGF/Log.h \
-OGF/LogFactory.h \
-OGF/Scene.h \
-OGF/SceneController.h \
-OGF/Types.h
+OGF/core/Bootstrap.h \
+OGF/core/GuiScene.h \
+OGF/core/InputManager.h \
+OGF/core/ISceneFactory.h \
+OGF/core/Log.h \
+OGF/core/LogFactory.h \
+OGF/core/Scene.h \
+OGF/core/SceneController.h \
+OGF/core/Types.h

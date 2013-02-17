@@ -64,6 +64,8 @@ namespace OGF {
 
 		public:
 
+			~SceneController();
+
 			static SceneController & getSingleton();
 			static SceneController * getSingletonPtr();
 
