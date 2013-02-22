@@ -19,6 +19,7 @@ OGF/core/InputManager.cpp \
 OGF/core/ISceneFactory.cpp \
 OGF/core/Log.cpp \
 OGF/core/LogFactory.cpp \
+OGF/core/ModelBuilder.cpp \
 OGF/core/ModelFactory.cpp \
 OGF/core/Scene.cpp \
 OGF/core/SceneController.cpp
@@ -36,6 +37,7 @@ OGF/core/InputManager.h \
 OGF/core/ISceneFactory.h \
 OGF/core/Log.h \
 OGF/core/LogFactory.h \
+OGF/core/ModelBuilder.h \
 OGF/core/ModelFactory.h \
 OGF/core/Scene.h \
 OGF/core/SceneController.h \

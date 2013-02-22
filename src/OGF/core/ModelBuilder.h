@@ -1,5 +1,5 @@
 /*
- * ModelFactory.h -- Model factory header file.
+ * ModelBuilder.h -- Model builder header file.
  *
  * Copyright (C) 2013 Javier Angulo Luceron <javier.angulo1@gmail.com>
  * 
@@ -17,38 +17,37 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __MODEL_FACTORY_H__
-#define __MODEL_FACTORY_H__
-
-#include <map>
+#ifndef __MODEL_BUILDER_H__
+#define __MODEL_BUILDER_H__
 
 #include <Ogre.h>
 
 #include "Types.h"
-#include "ModelBuilder.h"
-#include "LogFactory.h"
 
 namespace OGF {
 	
-	typedef std::map<ModelId, ModelPath> ModelMap;
-	
-	class ModelFactory : public Ogre::Singleton<ModelFactory> {
-		
-		protected:
-			
-			ModelMap _modelMap;
+	class ModelBuilder {
 		
 		public:
 
-			ModelFactory();
-			virtual ~ModelFactory();
+			virtual ~ModelBuilder();
 
-			static ModelFactory & getSingleton();
-			static ModelFactory * getSingletonPtr();
+			// Initial method as constructor
+			ModelBuilder(const ModelPath &path);
 
-			void initialize(const ModelMap &modelMap);
+			// Intermediate methods
+			ModelBuilder *parent(Ogre::SceneNode *parent);
+			ModelBuilder *queryFlags(const Ogre::uint32 queryFlags);
+			ModelBuilder *visible(bool isVisible);
+			ModelBuilder *castShadows(bool toCastShadows);
 
-			ModelBuilder * getBuilder(const ModelId &modelId);
+			// Final Methods
+			Ogre::SceneNode *buildNode();
+			Ogre::SceneNode *buildNode(const Ogre::String &nodeName);
+			Ogre::SceneNode *buildNode(const Ogre::String &entityName, const Ogre::String &nodeName);
+
+			Ogre::Entity *buildEntity();
+			Ogre::Entity *buildEntity(const Ogre::String &entityName);
 	};
 };
 
