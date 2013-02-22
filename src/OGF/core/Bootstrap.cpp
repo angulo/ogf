@@ -26,26 +26,26 @@ template<> Bootstrap * Ogre::Singleton<Bootstrap>::msSingleton = 0;
 void
 Bootstrap::_loadResources(const std::string &resourcesFilePath)
 {
-  Ogre::ConfigFile resourcesFile;
-  resourcesFile.load(resourcesFilePath);
-  
-  Ogre::ConfigFile::SectionIterator iterator = resourcesFile.getSectionIterator();
-  Ogre::String sectionString;
+	Ogre::ConfigFile resourcesFile;
+	resourcesFile.load(resourcesFilePath);
 
-  while (iterator.hasMoreElements()) {
-    sectionString = iterator.peekNextKey();
+	Ogre::ConfigFile::SectionIterator iterator = resourcesFile.getSectionIterator();
+	Ogre::String sectionString;
 
-    Ogre::ConfigFile::SettingsMultiMap *settings = iterator.getNext();
-    Ogre::ConfigFile::SettingsMultiMap::iterator i;
+	while (iterator.hasMoreElements()) {
+		sectionString = iterator.peekNextKey();
 
-    for (i = settings->begin(); i != settings->end(); ++i) {
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+		Ogre::ConfigFile::SettingsMultiMap *settings = iterator.getNext();
+		Ogre::ConfigFile::SettingsMultiMap::iterator i;
+
+		for (i = settings->begin(); i != settings->end(); ++i) {
+			Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
 				i->second, i->first, sectionString
 			);	
-    }
-  }
+		}
+	}
 
-  Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
 bool
