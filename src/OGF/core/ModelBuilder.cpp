@@ -21,8 +21,29 @@
 
 using namespace OGF;
 
-ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &path)
-	: _parentSet(false), _queryFlagsSet(false), _visibleSet(false),
+void
+ModelBuilder::_configureEntity(Ogre::Entity *entity)
+{
+	if (_queryFlagsSet)
+		entity->setQueryFlags(_queryFlags);
+
+	if (_visibleSet)
+		entity->setVisible(_visible);
+
+	if (_castShadowsSet)
+		entity->setCastShadows(_castShadows);
+}
+
+void
+ModelBuilder::_configureNode(Ogre::Node *node)
+{
+	if (_parentSet)
+		_parent->addChild(node);
+}
+
+ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath)
+	: _sceneManager(sceneManager), _modelPath(modelPath),
+		_parentSet(false), _queryFlagsSet(false), _visibleSet(false),
 		_castShadowsSet(false), _entityNameSet(false), _nodeNameSet(false)
 {
 }
@@ -84,29 +105,61 @@ ModelBuilder::castShadows(const bool &toCastShadows)
 Ogre::SceneNode *
 ModelBuilder::buildNode()
 {
+	Ogre::Entity *entity = buildEntity();
+	Ogre::SceneNode *node = _sceneManager->createSceneNode();
 
+	_configureEntity(entity);
+	_configureNode(node);
+
+	node->attachObject(entity);
+
+	return node;
 }
 
 Ogre::SceneNode *
 ModelBuilder::buildNode(const Ogre::String &nodeName)
 {
+	Ogre::Entity *entity = buildEntity();
+	Ogre::SceneNode *node = _sceneManager->createSceneNode(nodeName);
 
+	_configureEntity(entity);
+	_configureNode(node);
+
+	node->attachObject(entity);
+
+	return node;
 }
 
 Ogre::SceneNode *
 ModelBuilder::buildNode(const Ogre::String &entityName, const Ogre::String &nodeName)
 {
+	Ogre::Entity *entity = buildEntity(entityName);
+	Ogre::SceneNode *node = _sceneManager->createSceneNode(nodeName);
 
+	_configureEntity(entity);
+	_configureNode(node);
+
+	node->attachObject(entity);
+
+	return node;
 }
 
 Ogre::Entity *
 ModelBuilder::buildEntity()
 {
+	Ogre::Entity *entity = _sceneManager->createEntity(_modelPath);
 
+	_configureEntity(entity);
+
+	return entity;
 }
 
 Ogre::Entity *
 ModelBuilder::buildEntity(const Ogre::String &entityName)
 {
+	Ogre::Entity *entity = _sceneManager->createEntity(entityName, _modelPath);
 
+	_configureEntity(entity);
+
+	return entity;
 }

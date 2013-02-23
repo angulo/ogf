@@ -50,13 +50,16 @@ namespace OGF {
 			bool _castShadows;
 			Ogre::String _entityName;
 			Ogre::String _nodeName;
+
+			void _configureEntity(Ogre::Entity *entity);
+			void _configureNode(Ogre::Node *node);
 		
 		public:
 
 			virtual ~ModelBuilder();
 
 			// Initial method as constructor
-			ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &path);
+			ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath);
 			void initialize(const ModelBuilderPtr &selfInstance);
 
 			// Intermediate methods
