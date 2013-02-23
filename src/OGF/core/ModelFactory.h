@@ -48,7 +48,7 @@ namespace OGF {
 
 			void initialize(const ModelMap &modelMap);
 
-			ModelBuilder * getBuilder(const ModelId &modelId);
+			ModelBuilderPtr getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelId);
 	};
 };
 

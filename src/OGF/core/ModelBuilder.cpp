@@ -21,9 +21,10 @@
 
 using namespace OGF;
 
-ModelBuilder::ModelBuilder(const ModelPath &path)
+ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &path)
+	: _parentSet(false), _queryFlagsSet(false), _visibleSet(false),
+		_castShadowsSet(false), _entityNameSet(false), _nodeNameSet(false)
 {
-
 }
 
 ModelBuilder::~ModelBuilder()
@@ -31,28 +32,53 @@ ModelBuilder::~ModelBuilder()
 
 }
 
-ModelBuilder *
+void
+ModelBuilder::initialize(const ModelBuilderPtr &selfInstance)
+{
+	_selfInstance = selfInstance;
+}
+
+ModelBuilderPtr
 ModelBuilder::parent(Ogre::SceneNode *parent)
 {
+	if (parent != NULL) {
+		_parent = parent;
+		_parentSet = true;
+	} else {
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelBuilder", "parent", "Setting NULL parent, using Root", LOG_SEVERITY_ERROR);
+	}
 
+	return _selfInstance;
 }
 
-ModelBuilder *
-ModelBuilder::queryFlags(const Ogre::uint32 queryFlags)
+ModelBuilderPtr
+ModelBuilder::queryFlags(const Ogre::uint32 &queryFlags)
 {
+	if (queryFlags > 0) {
+		_queryFlags = queryFlags;
+	} else {
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelBuilder", "queryFlags", "Setting query flags < 0, using Root", LOG_SEVERITY_ERROR);
+	}
 
+	return _selfInstance;
 }
 
-ModelBuilder *
-ModelBuilder::visible(bool isVisible)
+ModelBuilderPtr
+ModelBuilder::visible(const bool &isVisible)
 {
+	_visible = isVisible;
+	_visibleSet = true;
 
+	return _selfInstance;
 }
 
-ModelBuilder *
-ModelBuilder::castShadows(bool toCastShadows)
+ModelBuilderPtr
+ModelBuilder::castShadows(const bool &toCastShadows)
 {
+	_castShadows = toCastShadows;
+	_castShadowsSet = true;
 
+	return _selfInstance;
 }
 
 Ogre::SceneNode *

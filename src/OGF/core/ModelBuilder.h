@@ -22,24 +22,48 @@
 
 #include <Ogre.h>
 
+#include "LogFactory.h"
 #include "Types.h"
 
 namespace OGF {
+
+	class ModelBuilder;
+	typedef Ogre::SharedPtr<ModelBuilder> ModelBuilderPtr;
 	
 	class ModelBuilder {
+		
+		private:
+			
+			// Mandatory data
+			Ogre::SceneManager *_sceneManager;
+			ModelPath _modelPath;
+			ModelBuilderPtr _selfInstance;
+
+			// Set flags
+			bool _parentSet, _queryFlagsSet, _visibleSet;
+			bool _castShadowsSet, _entityNameSet, _nodeNameSet;
+
+			// Configurable data
+			Ogre::SceneNode *_parent;
+			Ogre::uint32 _queryFlags;
+			bool _visible;
+			bool _castShadows;
+			Ogre::String _entityName;
+			Ogre::String _nodeName;
 		
 		public:
 
 			virtual ~ModelBuilder();
 
 			// Initial method as constructor
-			ModelBuilder(const ModelPath &path);
+			ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &path);
+			void initialize(const ModelBuilderPtr &selfInstance);
 
 			// Intermediate methods
-			ModelBuilder *parent(Ogre::SceneNode *parent);
-			ModelBuilder *queryFlags(const Ogre::uint32 queryFlags);
-			ModelBuilder *visible(bool isVisible);
-			ModelBuilder *castShadows(bool toCastShadows);
+			ModelBuilderPtr parent(Ogre::SceneNode *parent);
+			ModelBuilderPtr queryFlags(const Ogre::uint32 &queryFlags);
+			ModelBuilderPtr visible(const bool &isVisible);
+			ModelBuilderPtr castShadows(const bool &toCastShadows);
 
 			// Final Methods
 			Ogre::SceneNode *buildNode();
