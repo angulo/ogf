@@ -58,10 +58,10 @@ ModelFactory::initialize(const ModelMap &modelMap)
 	_modelMap = modelMap;
 }
 
-ModelBuilderPtr
+ModelBuilder *
 ModelFactory::getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelId)
 {
-	ModelBuilderPtr builder;
+	ModelBuilder *builder;
 
 	ModelMap::iterator it = _modelMap.find(modelId);
 	if (it == _modelMap.end()) {
@@ -70,7 +70,7 @@ ModelFactory::getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelI
 		throw message;
 		// TODO: throw custom exception
 	} else {
-		builder = ModelBuilderPtr(new ModelBuilder(sceneManager, it->second));
+		builder = new ModelBuilder(sceneManager, it->second);
 	}
 
 	return builder;

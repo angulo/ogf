@@ -3,12 +3,14 @@
 
 #include "Bootstrap.h"
 #include "GuiScene.h"
-#include "InputManager.h"
 #include "ISceneFactory.h"
-#include "LogFactory.h"
+#include "InputManager.h"
 #include "Log.h"
-#include "SceneController.h"
+#include "LogFactory.h"
+#include "ModelBuilder.h"
+#include "ModelFactory.h"
 #include "Scene.h"
+#include "SceneController.h"
 #include "Types.h"
 
 #endif

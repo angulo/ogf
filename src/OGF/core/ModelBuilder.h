@@ -37,7 +37,6 @@ namespace OGF {
 			// Mandatory data
 			Ogre::SceneManager *_sceneManager;
 			ModelPath _modelPath;
-			ModelBuilderPtr _selfInstance;
 
 			// Set flags
 			bool _parentSet, _queryFlagsSet, _visibleSet;
@@ -60,13 +59,12 @@ namespace OGF {
 
 			// Initial method as constructor
 			ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath);
-			void initialize(const ModelBuilderPtr &selfInstance);
 
 			// Intermediate methods
-			ModelBuilderPtr parent(Ogre::SceneNode *parent);
-			ModelBuilderPtr queryFlags(const Ogre::uint32 &queryFlags);
-			ModelBuilderPtr visible(const bool &isVisible);
-			ModelBuilderPtr castShadows(const bool &toCastShadows);
+			ModelBuilder *parent(Ogre::SceneNode *parent);
+			ModelBuilder *queryFlags(const Ogre::uint32 &queryFlags);
+			ModelBuilder *visible(const bool &isVisible);
+			ModelBuilder *castShadows(const bool &toCastShadows);
 
 			// Final Methods
 			Ogre::SceneNode *buildNode();
