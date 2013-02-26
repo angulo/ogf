@@ -22,8 +22,8 @@
 
 #include <Ogre.h>
 
-#include "LogFactory.h"
-#include "Types.h"
+#include "../core/LogFactory.h"
+#include "../core/Types.h"
 
 namespace OGF {
 

@@ -26,7 +26,7 @@
 
 #include "InputManager.h"
 #include "SceneController.h"
-#include "ModelFactory.h"
+#include "../util/ModelFactory.h"
 
 namespace OGF {
 	
