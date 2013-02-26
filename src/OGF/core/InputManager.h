@@ -53,6 +53,9 @@ namespace OGF {
 			static InputManager & getSingleton();
 			static InputManager * getSingletonPtr();
 
+			OIS::Keyboard * getKeyboard() const;
+			OIS::Mouse * getMouse() const;
+
 			void initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener, OIS::MouseListener *mouseListener);
 			void updateMouseLimits();
 			void capture();

@@ -1,16 +1,19 @@
 #ifndef __OGF_H__
 #define __OGF_H__
 
-#include "Bootstrap.h"
-#include "GuiScene.h"
-#include "ISceneFactory.h"
-#include "InputManager.h"
-#include "Log.h"
-#include "LogFactory.h"
-#include "ModelBuilder.h"
-#include "ModelFactory.h"
-#include "Scene.h"
-#include "SceneController.h"
-#include "Types.h"
+// Core componentes
+#include "core/Bootstrap.h"
+#include "core/GuiScene.h"
+#include "core/ISceneFactory.h"
+#include "core/InputManager.h"
+#include "core/Log.h"
+#include "core/LogFactory.h"
+#include "core/Scene.h"
+#include "core/SceneController.h"
+#include "core/Types.h"
+
+// Util components
+#include "util/ModelBuilder.h"
+#include "util/ModelFactory.h"
 
 #endif

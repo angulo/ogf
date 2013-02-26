@@ -103,6 +103,18 @@ InputManager::getSingletonPtr()
 	return msSingleton;
 }
 
+OIS::Keyboard *
+InputManager::getKeyboard() const
+{
+	return _keyboard;
+}
+
+OIS::Mouse *
+InputManager::getMouse() const
+{
+	return _mouse;
+}
+
 void
 InputManager::initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener, OIS::MouseListener *mouseListener)
 {
