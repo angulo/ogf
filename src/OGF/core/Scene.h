@@ -27,9 +27,18 @@ namespace OGF {
 	
 	class Scene {
 		
+		protected:
+			
+			Ogre::SceneManager *_sceneManager;
+		
 		public:
+			
+			Scene();
+			Scene(Ogre::SceneManager *sceneManager);
 
 			virtual ~Scene() = 0;
+
+			Ogre::SceneManager *getSceneManager() const;
 			
 			virtual void preload();
 

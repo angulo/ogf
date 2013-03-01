@@ -21,8 +21,25 @@
 
 using namespace OGF;
 
+Scene::Scene()
+{
+	_sceneManager = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC);
+}
+
+Scene::Scene(Ogre::SceneManager *sceneManager)
+	:	_sceneManager(sceneManager)
+{
+}
+
+Ogre::SceneManager *
+Scene::getSceneManager() const
+{
+	return _sceneManager;
+}
+
 Scene::~Scene()
 {
+	Ogre::Root::getSingletonPtr()->destroySceneManager(_sceneManager);
 }
 
 void

@@ -132,26 +132,26 @@ SceneController::initialize(ISceneFactory *sceneFactory, const SceneId &initialS
 }
 
 void
-SceneController::preload(SceneId sceneId)
+SceneController::preload(const SceneId &sceneId)
 {
 	Scene *scene = _getScenePtr(sceneId);
 	scene->preload();
 }
 
 void
-SceneController::add(SceneId sceneId)
+SceneController::add(const SceneId &sceneId)
 {
 	// TODO
 }
 
 void
-SceneController::remove(SceneId sceneId)
+SceneController::remove(const SceneId &sceneId)
 {
 	// TODO
 }
 
 void
-SceneController::push(SceneId sceneId)
+SceneController::push(const SceneId &sceneId)
 {
 	if (!_sceneStore.empty()) {
 		_sceneStore.top()->pause();
@@ -175,7 +175,7 @@ SceneController::pop()
 }
 
 void
-SceneController::replace(SceneId sceneId)
+SceneController::replace(const SceneId &sceneId)
 {
 	if (!_sceneStore.empty()) {
 		_sceneStore.top()->exit();

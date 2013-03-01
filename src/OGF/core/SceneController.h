@@ -71,15 +71,15 @@ namespace OGF {
 
 			void initialize(ISceneFactory *sceneFactory, const SceneId &initialScene);
 
-			void preload(SceneId sceneId);
+			void preload(const SceneId &sceneId);
 
-			void add(SceneId sceneId);
-			void remove(SceneId sceneId);
+			void add(const SceneId &sceneId);
+			void remove(const SceneId &sceneId);
 
-			void push(SceneId sceneId);
+			void push(const SceneId &sceneId);
 			void pop();
 
-			void replace(SceneId sceneId);
+			void replace(const SceneId &sceneId);
 
 	}; // Class SceneController
 
