@@ -26,7 +26,7 @@ namespace OGF {
 	
 	typedef Ogre::int32 SceneId;
 	typedef Ogre::int32 LogId;
-	typedef Ogre::String ModelId;
+	typedef Ogre::int32 ModelId;
 	typedef Ogre::String ModelPath;
 
 };
