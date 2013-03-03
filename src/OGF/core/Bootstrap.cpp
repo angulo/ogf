@@ -107,7 +107,8 @@ Bootstrap::init(const std::string &resourcesFilePath, const std::string &windowT
 	SceneController *sceneController = SceneController::getSingletonPtr();
 	root->addFrameListener(sceneController);
 
-	sceneController->initialize(sceneFactory, initialScene);
+	sceneController->initialize(sceneFactory);
+	_initialScene = initialScene;
 
 	InputManager::getSingletonPtr()->initialize(root->getAutoCreatedWindow(), sceneController, sceneController);
 
@@ -119,15 +120,13 @@ Bootstrap::init(const std::string &resourcesFilePath, const std::string &windowT
 void
 Bootstrap::run()
 {
+	OGF::SceneController::getSingletonPtr()->push(_initialScene);
 	Ogre::Root::getSingletonPtr()->startRendering();
 }
 
 void
 Bootstrap::shutdown()
 {
-	if (SceneController::getSingletonPtr())
-		delete SceneController::getSingletonPtr();
-
 	if (InputManager::getSingletonPtr())
 		delete InputManager::getSingletonPtr();
 
@@ -136,6 +135,9 @@ Bootstrap::shutdown()
 
 	if (ModelFactory::getSingletonPtr()) 
 		delete ModelFactory::getSingletonPtr();
+
+	if (SceneController::getSingletonPtr())
+		delete SceneController::getSingletonPtr();
 
 	delete Ogre::Root::getSingletonPtr();
 

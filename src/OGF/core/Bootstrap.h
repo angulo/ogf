@@ -26,6 +26,7 @@
 
 #include "InputManager.h"
 #include "SceneController.h"
+#include "Types.h"
 #include "../util/ModelFactory.h"
 
 namespace OGF {
@@ -34,6 +35,8 @@ namespace OGF {
 
 		private:
 			
+			SceneId _initialScene;
+
 			void _loadResources(const std::string &resourcesFilePath);
 			bool _configureRenderWindow(const std::string &windowTitle);
 			void _initGui();

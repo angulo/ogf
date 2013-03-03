@@ -125,10 +125,9 @@ SceneController::getSingletonPtr()
 }
 
 void
-SceneController::initialize(ISceneFactory *sceneFactory, const SceneId &initialScene)
+SceneController::initialize(ISceneFactory *sceneFactory)
 {
 	_sceneFactory = sceneFactory;
-	push(initialScene);
 }
 
 void
