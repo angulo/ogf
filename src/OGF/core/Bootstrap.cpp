@@ -99,10 +99,11 @@ bool
 Bootstrap::init(const std::string &resourcesFilePath, const std::string &windowTitle, ISceneFactory *sceneFactory, const SceneId &initialScene)
 {
 	Ogre::Root *root = new Ogre::Root();
-	_loadResources(resourcesFilePath);
 
 	if (!_configureRenderWindow(windowTitle))
 		return false;
+
+	_loadResources(resourcesFilePath);
 
 	SceneController *sceneController = SceneController::getSingletonPtr();
 	root->addFrameListener(sceneController);
