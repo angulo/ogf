@@ -41,12 +41,15 @@ namespace OGF {
 			// Set flags
 			bool _parentSet, _queryFlagsSet, _visibleSet;
 			bool _castShadowsSet, _entityNameSet, _nodeNameSet;
+			bool _positionSet, _scaleSet;
 
 			// Configurable data
 			Ogre::SceneNode *_parent;
 			Ogre::uint32 _queryFlags;
 			bool _visible;
 			bool _castShadows;
+			Ogre::Vector3 _position;
+			Ogre::Vector3 _scale;
 			Ogre::String _entityName;
 			Ogre::String _nodeName;
 
@@ -65,6 +68,8 @@ namespace OGF {
 			ModelBuilder *queryFlags(const Ogre::uint32 &queryFlags);
 			ModelBuilder *visible(const bool &isVisible);
 			ModelBuilder *castShadows(const bool &toCastShadows);
+			ModelBuilder *position(const Ogre::Vector3 &position);
+			ModelBuilder *scale(const Ogre::Vector3 &scale);
 
 			// Final Methods
 			Ogre::SceneNode *buildNode();

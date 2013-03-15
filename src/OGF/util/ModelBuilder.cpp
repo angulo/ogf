@@ -39,12 +39,19 @@ ModelBuilder::_configureNode(Ogre::Node *node)
 {
 	if (_parentSet)
 		_parent->addChild(node);
+	
+	if (_positionSet)
+		node->setPosition(_position);
+	
+	if (_scaleSet)
+		node->setScale(_scale);
 }
 
 ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath)
 	: _sceneManager(sceneManager), _modelPath(modelPath),
 		_parentSet(false), _queryFlagsSet(false), _visibleSet(false),
-		_castShadowsSet(false), _entityNameSet(false), _nodeNameSet(false)
+		_castShadowsSet(false), _entityNameSet(false), _nodeNameSet(false),
+		_positionSet(false), _scaleSet(false)
 {
 }
 
@@ -93,6 +100,24 @@ ModelBuilder::castShadows(const bool &toCastShadows)
 {
 	_castShadows = toCastShadows;
 	_castShadowsSet = true;
+
+	return this;
+}
+
+ModelBuilder *
+ModelBuilder::position(const Ogre::Vector3 &position)
+{
+	_position = position;
+	_positionSet = true;
+
+	return this;
+}
+
+ModelBuilder *
+ModelBuilder::scale(const Ogre::Vector3 &scale)
+{
+	_scale = scale;
+	_scaleSet = true;
 
 	return this;
 }
