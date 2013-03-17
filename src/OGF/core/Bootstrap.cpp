@@ -74,6 +74,24 @@ Bootstrap::_initGui()
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 }
 
+void
+Bootstrap::_initSound()
+{
+	if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("Bootstrap", "_initSound", "Sound could not be initialized", LOG_SEVERITY_WARN);
+		return;
+	}
+
+	atexit(SDL_Quit);
+
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS, 4096) < 0) {
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("Bootstrap", "_initSound", "Sound could not be initialized", LOG_SEVERITY_WARN);
+		return;
+	}
+
+	atexit(Mix_CloseAudio);
+}
+
 Bootstrap&
 Bootstrap::getSingleton()
 {
@@ -114,6 +132,7 @@ Bootstrap::init(const std::string &resourcesFilePath, const std::string &windowT
 	InputManager::getSingletonPtr()->initialize(root->getAutoCreatedWindow(), sceneController, sceneController);
 
 	_initGui();
+	_initSound();
 
 	return true;
 }

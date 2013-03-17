@@ -15,5 +15,7 @@
 // Util components
 #include "util/ModelBuilder.h"
 #include "util/ModelFactory.h"
+#include "util/SoundChunk.h"
+#include "util/SoundChunkManager.h"
 
 #endif

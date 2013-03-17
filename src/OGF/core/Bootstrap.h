@@ -23,6 +23,8 @@
 #include <Ogre.h>
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 #include "InputManager.h"
 #include "SceneController.h"
@@ -40,6 +42,7 @@ namespace OGF {
 			void _loadResources(const std::string &resourcesFilePath);
 			bool _configureRenderWindow(const std::string &windowTitle);
 			void _initGui();
+			void _initSound();
 		
 		public:
 

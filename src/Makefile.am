@@ -6,7 +6,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
 	-I "OGF/core" \
 	-I "OGF/util" \
-	$(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUI_OGRE_CFLAGS) $(OIS_CFLAGS) 
+	$(OGRE_CFLAGS) $(CEGUI_CFLAGS) $(CEGUI_OGRE_CFLAGS) $(OIS_CFLAGS) $(SDL_MIXER)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -24,10 +24,12 @@ OGF/core/LogFactory.cpp \
 OGF/core/Scene.cpp \
 OGF/core/SceneController.cpp \
 OGF/util/ModelBuilder.cpp \
-OGF/util/ModelFactory.cpp
+OGF/util/ModelFactory.cpp \
+OGF/util/SoundChunk.cpp \
+OGF/util/SoundChunkManager.cpp
 
 libogf_0_1_la_LDFLAGS = -version-info $(LIBRARY_VERSION)
-libogf_0_1_la_LIBADD = $(OGRE_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS) $(OIS_LIBS)
+libogf_0_1_la_LIBADD = $(OGRE_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS) $(OIS_LIBS) $(SDL_MIXER_LIBS)
 
 library_maindir = $(includedir)/OGF/
 library_main_HEADERS =\
@@ -50,4 +52,6 @@ OGF/core/Types.h
 library_utildir = $(includedir)/OGF/util
 library_util_HEADERS =\
 OGF/util/ModelBuilder.h \
-OGF/util/ModelFactory.h
+OGF/util/ModelFactory.h \
+OGF/util/SoundChunk.h \
+OGF/util/SoundChunkManager.h
