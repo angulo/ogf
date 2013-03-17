@@ -37,7 +37,6 @@ namespace OGF {
 
 			Mix_Chunk *_playableSource;
 			Ogre::String _path;
-			size_t _size;
 		
 		public:
 			

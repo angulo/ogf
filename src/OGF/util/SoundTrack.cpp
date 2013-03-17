@@ -1,5 +1,5 @@
 /*
- * SoundChunk.cpp -- Basic sound resource implementation file
+ * SoundTrack.cpp -- Track sound resource implementation file
  *
  * Copyright (C) 2013 Javier Angulo Luceron <javier.angulo1@gmail.com>
  * 
@@ -17,28 +17,28 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "SoundChunk.h"
+#include "SoundTrack.h"
 
 using namespace OGF;
 
-std::string SoundChunk::RESOURCE_TYPE = "SoundChunk";
+std::string SoundTrack::RESOURCE_TYPE = "SoundTrack";
 
-SoundChunk::SoundChunk(Ogre::ResourceManager *resourceManager, const Ogre::String &name,
+SoundTrack::SoundTrack(Ogre::ResourceManager *resourceManager, const Ogre::String &name,
 	const Ogre::ResourceHandle handle, const Ogre::String &group,
 	const bool &manualLoad, Ogre::ManualResourceLoader *manualLoader)
 	:	Ogre::Resource(resourceManager, name, handle, group, manualLoad, manualLoader),
-		_playableSource(NULL), _path("")
+		_playableSource(NULL), _path(""), _size(0)
 {
-	createParamDictionary("SoundChunk");
+	createParamDictionary("SoundTrack");
 }
 
-SoundChunk::~SoundChunk()
+SoundTrack::~SoundTrack()
 {
 	unload();
 }
 
 void
-SoundChunk::loadImpl()
+SoundTrack::loadImpl()
 {
 	Log *errorLog = OGF::LogFactory::getSingletonPtr()->get(OGF::LOG_ERR);
 
@@ -49,58 +49,82 @@ SoundChunk::loadImpl()
 	
 	if (_path == "") {
 		std::string errorMessage = "Impossible to find sound resource: " + mName;
-		errorLog->log("SoundChunk", "loadImpl", errorMessage, OGF::LOG_SEVERITY_ERROR);
+		errorLog->log("SoundTrack", "loadImpl", errorMessage, OGF::LOG_SEVERITY_ERROR);
 		throw errorMessage;
 	}
 
-	if ((_playableSource = Mix_LoadWAV(_path.c_str())) == NULL) {
+	if ((_playableSource = Mix_LoadMUS(_path.c_str())) == NULL) {
 		std::string errorMessage = "Impossible to load sound resource: " + _path;
-		errorLog->log("SoundChunk", "loadImpl", errorMessage, OGF::LOG_SEVERITY_ERROR);
+		errorLog->log("SoundTrack", "loadImpl", errorMessage, OGF::LOG_SEVERITY_ERROR);
 		throw errorMessage;
 	}
+
+	// Calculate size
+	std::ifstream stream;
+	stream.open(_path.c_str(), std::ios_base::binary);
+	char temp;
+
+	while (stream >> temp)
+		_size++;
+
+	stream.close();
 }
 
 void
-SoundChunk::unloadImpl()
+SoundTrack::unloadImpl()
 {
 	if (_playableSource != NULL)
-		Mix_FreeChunk(_playableSource);
+		Mix_FreeMusic(_playableSource);
 }
 
 size_t
-SoundChunk::calculateSize() const
+SoundTrack::calculateSize() const
 {
-	return _playableSource->alen;
+	return _size;
 }
 
 void
-SoundChunk::play()
+SoundTrack::play(const bool &toLoop)
 {
 	Log *errorLog = OGF::LogFactory::getSingletonPtr()->get(OGF::LOG_ERR);
 
-	if (Mix_PlayChannel(-1, _playableSource, 0) == -1) {
-		std::string errorMessage = "Impossible to play sound resource: " + mName;
-		errorLog->log("SoundChunk", "play", errorMessage, OGF::LOG_SEVERITY_ERROR);
-		throw errorMessage;
+	if (Mix_PausedMusic()) {
+		Mix_ResumeMusic();
+	} else if (Mix_PlayMusic(_playableSource, toLoop ? -1 : 1) == -1) {
+			std::string errorMessage = "Impossible to play sound resource: " + mName;
+			errorLog->log("SoundTrack", "play", errorMessage, OGF::LOG_SEVERITY_ERROR);
+			throw errorMessage;
 	}
 }
 
-SoundChunkPtr::SoundChunkPtr()
-	:	Ogre::SharedPtr<SoundChunk>()
+void
+SoundTrack::pause()
+{
+	Mix_PauseMusic();
+}
+
+void
+SoundTrack::stop()
+{
+	Mix_HaltMusic();
+}
+
+SoundTrackPtr::SoundTrackPtr()
+	:	Ogre::SharedPtr<SoundTrack>()
 {
 }
 
-SoundChunkPtr::SoundChunkPtr(SoundChunk *instancePtr)
-	:	Ogre::SharedPtr<SoundChunk>(instancePtr)
+SoundTrackPtr::SoundTrackPtr(SoundTrack *instancePtr)
+	:	Ogre::SharedPtr<SoundTrack>(instancePtr)
 {
 }
 
-SoundChunkPtr::SoundChunkPtr(const SoundChunkPtr &instance)
-	:	Ogre::SharedPtr<SoundChunk>(instance)
+SoundTrackPtr::SoundTrackPtr(const SoundTrackPtr &instance)
+	:	Ogre::SharedPtr<SoundTrack>(instance)
 {
 }
 
-SoundChunkPtr::SoundChunkPtr(const Ogre::ResourcePtr &resourcePtr)
+SoundTrackPtr::SoundTrackPtr(const Ogre::ResourcePtr &resourcePtr)
 {
 	Log *errorLog = OGF::LogFactory::getSingletonPtr()->get(OGF::LOG_ERR);
 
@@ -111,7 +135,7 @@ SoundChunkPtr::SoundChunkPtr(const Ogre::ResourcePtr &resourcePtr)
 	OGRE_LOCK_MUTEX(*resourcePtr.OGRE_AUTO_MUTEX_NAME)
 	OGRE_COPY_AUTO_SHARED_MUTEX(resourcePtr.OGRE_AUTO_MUTEX_NAME)
 
-	pRep = static_cast<SoundChunk *>(resourcePtr.getPointer());
+	pRep = static_cast<SoundTrack *>(resourcePtr.getPointer());
 	pUseCount = resourcePtr.useCountPointer();
 	useFreeMethod = resourcePtr.freeMethod();
 
@@ -120,10 +144,10 @@ SoundChunkPtr::SoundChunkPtr(const Ogre::ResourcePtr &resourcePtr)
 		++(*pUseCount);
 }
 
-SoundChunkPtr &
-SoundChunkPtr::operator= (const Ogre::ResourcePtr &resourcePtr)
+SoundTrackPtr &
+SoundTrackPtr::operator= (const Ogre::ResourcePtr &resourcePtr)
 {
-	if (pRep == static_cast<SoundChunk *>(resourcePtr.getPointer()))
+	if (pRep == static_cast<SoundTrack *>(resourcePtr.getPointer()))
 		return *this;
 
 	release();
@@ -134,7 +158,7 @@ SoundChunkPtr::operator= (const Ogre::ResourcePtr &resourcePtr)
 	OGRE_LOCK_MUTEX(*resourcePtr.OGRE_AUTO_MUTEX_NAME)
 	OGRE_COPY_AUTO_SHARED_MUTEX(resourcePtr.OGRE_AUTO_MUTEX_NAME)
 
-	pRep = static_cast<SoundChunk*>(resourcePtr.getPointer());
+	pRep = static_cast<SoundTrack*>(resourcePtr.getPointer());
 	pUseCount = resourcePtr.useCountPointer();
 	useFreeMethod = resourcePtr.freeMethod();
 

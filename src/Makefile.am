@@ -26,7 +26,9 @@ OGF/core/SceneController.cpp \
 OGF/util/ModelBuilder.cpp \
 OGF/util/ModelFactory.cpp \
 OGF/util/SoundChunk.cpp \
-OGF/util/SoundChunkManager.cpp
+OGF/util/SoundChunkManager.cpp \
+OGF/util/SoundTrack.cpp \
+OGF/util/SoundTrackManager.cpp
 
 libogf_0_1_la_LDFLAGS = -version-info $(LIBRARY_VERSION)
 libogf_0_1_la_LIBADD = $(OGRE_LIBS) $(CEGUI_LIBS) $(CEGUI_OGRE_LIBS) $(OIS_LIBS) $(SDL_MIXER_LIBS)
@@ -54,4 +56,6 @@ library_util_HEADERS =\
 OGF/util/ModelBuilder.h \
 OGF/util/ModelFactory.h \
 OGF/util/SoundChunk.h \
-OGF/util/SoundChunkManager.h
+OGF/util/SoundChunkManager.h \
+OGF/util/SoundTrack.h \
+OGF/util/SoundTrackManager.h

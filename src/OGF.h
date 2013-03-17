@@ -17,5 +17,7 @@
 #include "util/ModelFactory.h"
 #include "util/SoundChunk.h"
 #include "util/SoundChunkManager.h"
+#include "util/SoundTrack.h"
+#include "util/SoundTrackManager.h"
 
 #endif
