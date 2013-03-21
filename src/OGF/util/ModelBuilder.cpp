@@ -80,7 +80,7 @@ ModelBuilder::queryFlags(const Ogre::uint32 &queryFlags)
 		_queryFlags = queryFlags;
 		_queryFlagsSet = true;
 	} else {
-		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelBuilder", "queryFlags", "Setting query flags < 0, using Root", LOG_SEVERITY_ERROR);
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelBuilder", "queryFlags", "Setting query flags < 0", LOG_SEVERITY_ERROR);
 	}
 
 	return this;
