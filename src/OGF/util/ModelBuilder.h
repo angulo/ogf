@@ -39,6 +39,7 @@ namespace OGF {
 			ModelPath _modelPath;
 
 			// Set flags
+			bool _modelPathSet;
 			bool _parentSet, _queryFlagsSet, _visibleSet;
 			bool _castShadowsSet, _entityNameSet, _nodeNameSet;
 			bool _positionSet, _scaleSet;
@@ -53,6 +54,7 @@ namespace OGF {
 			Ogre::String _entityName;
 			Ogre::String _nodeName;
 
+			void _checkModelPath();
 			void _configureEntity(Ogre::Entity *entity);
 			void _configureNode(Ogre::Node *node);
 		
@@ -61,23 +63,23 @@ namespace OGF {
 			virtual ~ModelBuilder();
 
 			// Initial method as constructor
+			ModelBuilder(Ogre::SceneManager *sceneManager);
 			ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath);
 
 			// Intermediate methods
+			ModelBuilder *modelPath(const ModelPath &modelPath);
 			ModelBuilder *parent(Ogre::SceneNode *parent);
 			ModelBuilder *queryFlags(const Ogre::uint32 &queryFlags);
 			ModelBuilder *visible(const bool &isVisible);
 			ModelBuilder *castShadows(const bool &toCastShadows);
 			ModelBuilder *position(const Ogre::Vector3 &position);
 			ModelBuilder *scale(const Ogre::Vector3 &scale);
+			ModelBuilder *entityName(const Ogre::String &name);
+			ModelBuilder *nodeName(const Ogre::String &name);
 
 			// Final Methods
 			Ogre::SceneNode *buildNode();
-			Ogre::SceneNode *buildNode(const Ogre::String &nodeName);
-			Ogre::SceneNode *buildNode(const Ogre::String &entityName, const Ogre::String &nodeName);
-
 			Ogre::Entity *buildEntity();
-			Ogre::Entity *buildEntity(const Ogre::String &entityName);
 	};
 };
 

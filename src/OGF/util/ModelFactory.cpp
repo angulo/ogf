@@ -59,6 +59,12 @@ ModelFactory::initialize(const ModelMap &modelMap)
 }
 
 ModelBuilder *
+ModelFactory::getBuilder(Ogre::SceneManager *sceneManager)
+{
+	return new ModelBuilder(sceneManager);
+}
+
+ModelBuilder *
 ModelFactory::getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelId)
 {
 	ModelBuilder *builder;
@@ -68,7 +74,6 @@ ModelFactory::getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelI
 		std::string message = "Model with id not in the model directory";
 		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelFactory", "getBuilder", message, LOG_SEVERITY_ERROR);
 		throw message;
-		// TODO: throw custom exception
 	} else {
 		builder = new ModelBuilder(sceneManager, it->second);
 	}

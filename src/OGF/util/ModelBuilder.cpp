@@ -22,6 +22,16 @@
 using namespace OGF;
 
 void
+ModelBuilder::_checkModelPath()
+{
+	if (_modelPath.size() == 0) {
+		std::string errorMessage = "Building an entity with no model path";
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelBuilder", "buildEntity", errorMessage, LOG_SEVERITY_ERROR);
+		throw errorMessage;
+	}
+}
+
+void
 ModelBuilder::_configureEntity(Ogre::Entity *entity)
 {
 	if (_queryFlagsSet)
@@ -47,17 +57,40 @@ ModelBuilder::_configureNode(Ogre::Node *node)
 		node->setScale(_scale);
 }
 
-ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath)
-	: _sceneManager(sceneManager), _modelPath(modelPath),
+ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager)
+	: _sceneManager(sceneManager), _modelPathSet(false),
+		_entityName(""), _nodeName(""),
 		_parentSet(false), _queryFlagsSet(false), _visibleSet(false),
 		_castShadowsSet(false), _entityNameSet(false), _nodeNameSet(false),
 		_positionSet(false), _scaleSet(false)
 {
 }
 
+ModelBuilder::ModelBuilder(Ogre::SceneManager *sceneManager, const ModelPath &modelPath)
+	: _sceneManager(sceneManager), _modelPathSet(false),
+		_parentSet(false), _queryFlagsSet(false), _visibleSet(false),
+		_castShadowsSet(false), _entityNameSet(false), _nodeNameSet(false),
+		_positionSet(false), _scaleSet(false)
+{
+	this->modelPath(modelPath);
+}
+
 ModelBuilder::~ModelBuilder()
 {
 
+}
+
+ModelBuilder *
+ModelBuilder::modelPath(const ModelPath &modelPath)
+{
+	if (modelPath.size() > 0) {
+		_modelPath = modelPath;
+		_modelPathSet = true;
+	} else {
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelBuilder", "modelPath", "Setting empty model path, property not set", LOG_SEVERITY_ERROR);
+	}
+
+	return this;
 }
 
 ModelBuilder *
@@ -125,38 +158,15 @@ ModelBuilder::scale(const Ogre::Vector3 &scale)
 Ogre::SceneNode *
 ModelBuilder::buildNode()
 {
+	Ogre::SceneNode *node = NULL;
 	Ogre::Entity *entity = buildEntity();
-	Ogre::SceneNode *node = _sceneManager->createSceneNode();
 
-	_configureEntity(entity);
-	_configureNode(node);
+	if (_entityName.size() > 0) {
+		node = _sceneManager->createSceneNode(_nodeName);
+	} else {
+		node = _sceneManager->createSceneNode();
+	}
 
-	node->attachObject(entity);
-
-	return node;
-}
-
-Ogre::SceneNode *
-ModelBuilder::buildNode(const Ogre::String &nodeName)
-{
-	Ogre::Entity *entity = buildEntity();
-	Ogre::SceneNode *node = _sceneManager->createSceneNode(nodeName);
-
-	_configureEntity(entity);
-	_configureNode(node);
-
-	node->attachObject(entity);
-
-	return node;
-}
-
-Ogre::SceneNode *
-ModelBuilder::buildNode(const Ogre::String &entityName, const Ogre::String &nodeName)
-{
-	Ogre::Entity *entity = buildEntity(entityName);
-	Ogre::SceneNode *node = _sceneManager->createSceneNode(nodeName);
-
-	_configureEntity(entity);
 	_configureNode(node);
 
 	node->attachObject(entity);
@@ -167,17 +177,15 @@ ModelBuilder::buildNode(const Ogre::String &entityName, const Ogre::String &node
 Ogre::Entity *
 ModelBuilder::buildEntity()
 {
-	Ogre::Entity *entity = _sceneManager->createEntity(_modelPath);
+	Ogre::Entity *entity = NULL;
 
-	_configureEntity(entity);
+	_checkModelPath();
 
-	return entity;
-}
-
-Ogre::Entity *
-ModelBuilder::buildEntity(const Ogre::String &entityName)
-{
-	Ogre::Entity *entity = _sceneManager->createEntity(entityName, _modelPath);
+	if (_entityName.size() > 0) {
+		entity = _sceneManager->createEntity(_entityName, _modelPath);
+	} else {
+		entity = _sceneManager->createEntity(_modelPath);
+	}
 
 	_configureEntity(entity);
 
