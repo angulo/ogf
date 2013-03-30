@@ -155,6 +155,24 @@ ModelBuilder::scale(const Ogre::Vector3 &scale)
 	return this;
 }
 
+ModelBuilder *
+ModelBuilder::entityName(const Ogre::String &name)
+{
+	_entityName = name;
+	_entityNameSet = true;
+
+	return this;
+}
+
+ModelBuilder *
+ModelBuilder::nodeName(const Ogre::String &name)
+{
+	_nodeName = name;
+	_nodeNameSet = true;
+
+	return this;
+}
+
 Ogre::SceneNode *
 ModelBuilder::buildNode()
 {
