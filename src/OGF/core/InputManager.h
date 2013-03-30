@@ -21,6 +21,7 @@
 #define __INPUT_MANAGER_H__
 
 #include <Ogre.h>
+#include <CEGUI/CEGUI.h>
 #include <OIS/OIS.h>
 
 namespace OGF {
@@ -37,6 +38,8 @@ namespace OGF {
 
 			OIS::Mouse *_mouse;
 			OIS::MouseListener *_mouseListener;
+
+			CEGUI::MouseButton _convertMouseButton(OIS::MouseButtonID id);
 
 			bool keyPressed(const OIS::KeyEvent &event);
 			bool keyReleased(const OIS::KeyEvent &event);

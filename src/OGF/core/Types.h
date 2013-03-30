@@ -24,10 +24,11 @@
 
 namespace OGF {
 	
-	typedef Ogre::int32 SceneId;
+	typedef Ogre::int64 ChildId;
 	typedef Ogre::int32 LogId;
 	typedef Ogre::int32 ModelId;
 	typedef Ogre::String ModelPath;
+	typedef Ogre::int32 SceneId;
 
 };
 

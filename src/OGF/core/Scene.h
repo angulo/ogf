@@ -20,17 +20,26 @@
 #ifndef __SCENE_H__
 #define __SCENE_H__
 
+#include <map>
+
 #include <Ogre.h>
 #include <OIS/OIS.h>
 
+#include "LogFactory.h"
+#include "Types.h"
+
 namespace OGF {
+
+	class Scene;
+	typedef std::map<ChildId, Scene *> ChildMap;
 	
 	class Scene {
 		
 		protected:
 			
 			Ogre::SceneManager *_sceneManager;
-		
+			ChildMap _childs;
+
 		public:
 			
 			Scene();
@@ -39,6 +48,9 @@ namespace OGF {
 			virtual ~Scene() = 0;
 
 			Ogre::SceneManager *getSceneManager() const;
+
+			void addChild(Scene* childScene, const ChildId &childId);
+			void removeChild(const ChildId &childId);
 			
 			virtual void preload();
 
@@ -49,6 +61,12 @@ namespace OGF {
 			virtual void resume();
 
 			// Facade methods to allow specific base implementations
+			
+			virtual void enterFacade();
+			virtual void exitFacade();
+			virtual void pauseFacade();
+			virtual void resumeFacade();
+
 			virtual bool frameStartedFacade(const Ogre::FrameEvent& event);
 			virtual bool frameEndedFacade(const Ogre::FrameEvent& event);
 

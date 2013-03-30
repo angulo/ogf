@@ -24,18 +24,22 @@ using namespace OGF;
 template<> SceneController * Ogre::Singleton<SceneController>::msSingleton = 0;
 
 Scene *
-SceneController::_getScenePtr(const SceneId &sceneId)
+SceneController::_getScenePtr(const SceneId &sceneId, const bool &useCache)
 {
 	Scene *scene = NULL;
 	if (_sceneFactory == NULL) {
 		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("SceneController", "_getScenePtr", "Scene factory not initialized", LOG_SEVERITY_ERROR);
 	} else {
-		SceneMap::iterator it = _sceneMap.find(sceneId);
-		if (it == _sceneMap.end()) {
-			scene = _sceneFactory->create(sceneId);
-			_sceneMap[sceneId] = scene;
+		if (useCache) {
+			SceneMap::iterator it = _sceneMap.find(sceneId);
+			if (it == _sceneMap.end()) {
+				scene = _sceneFactory->create(sceneId);
+				_sceneMap[sceneId] = scene;
+			} else {
+				scene = it->second;
+			}
 		} else {
-			scene = it->second;
+			scene = _sceneFactory->create(sceneId);
 		}
 	}
 
@@ -48,6 +52,7 @@ bool
 SceneController::frameStarted(const Ogre::FrameEvent &event)
 {
 	InputManager::getSingletonPtr()->capture();
+	CEGUI::System::getSingleton().injectTimePulse(event.timeSinceLastFrame);
 
 	return _sceneStore.empty() || _sceneStore.top()->frameStartedFacade(event);
 }
@@ -92,7 +97,7 @@ SceneController::~SceneController()
 {
 	size_t storeSize = _sceneStore.size();
 	for (size_t i = 0; i < storeSize; i++) {
-		_sceneStore.top()->exit();
+		_sceneStore.top()->exitFacade();
 		_sceneStore.pop();
 	}
 
@@ -137,39 +142,55 @@ SceneController::preload(const SceneId &sceneId)
 	scene->preload();
 }
 
-void
-SceneController::add(const SceneId &sceneId)
+ChildId
+SceneController::addChild(const SceneId &sceneId)
 {
-	// TODO
+	static ChildId count = 0;
+
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->addChild(_getScenePtr(sceneId, false), ++count);
+	} else {
+		std::string errorMessage = "No active scene, impossible to add child";
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("SceneController", "addChild", errorMessage, LOG_SEVERITY_ERROR);
+		throw errorMessage;
+	}
+
+	return count;
 }
 
 void
-SceneController::remove(const SceneId &sceneId)
+SceneController::removeChild(const ChildId &childId)
 {
-	// TODO
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->removeChild(childId);
+	} else {
+		std::string errorMessage = "No active scene, impossible to remove child";
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("SceneController", "removeChild", errorMessage, LOG_SEVERITY_ERROR);
+		throw errorMessage;
+	}
 }
 
 void
 SceneController::push(const SceneId &sceneId)
 {
 	if (!_sceneStore.empty()) {
-		_sceneStore.top()->pause();
+		_sceneStore.top()->pauseFacade();
 	}
 
 	_sceneStore.push(_getScenePtr(sceneId));
-	_sceneStore.top()->enter();
+	_sceneStore.top()->enterFacade();
 }
 
 void
 SceneController::pop()
 {
 	if (!_sceneStore.empty()) {
-		_sceneStore.top()->exit();
+		_sceneStore.top()->exitFacade();
 		_sceneStore.pop();
 	}
 
 	if (!_sceneStore.empty()) {
-		_sceneStore.top()->resume();
+		_sceneStore.top()->resumeFacade();
 	}
 }
 
@@ -177,10 +198,10 @@ void
 SceneController::replace(const SceneId &sceneId)
 {
 	if (!_sceneStore.empty()) {
-		_sceneStore.top()->exit();
+		_sceneStore.top()->exitFacade();
 		_sceneStore.pop();
 	}
 
 	_sceneStore.push(_getScenePtr(sceneId));
-	_sceneStore.top()->enter();
+	_sceneStore.top()->enterFacade();
 }

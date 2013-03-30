@@ -37,7 +37,8 @@ namespace OGF {
 
 	typedef std::map<SceneId, Scene *> SceneMap;
 	
-	class SceneController : public Ogre::Singleton<SceneController>, public Ogre::FrameListener, public OIS::KeyListener, public OIS::MouseListener {
+	class SceneController : public Ogre::Singleton<SceneController>, public Ogre::FrameListener,
+		public OIS::KeyListener, public OIS::MouseListener {
 
 		private:
 
@@ -45,7 +46,7 @@ namespace OGF {
 			ISceneFactory *_sceneFactory;
 			std::stack<Scene *> _sceneStore;
 
-			Scene * _getScenePtr(const SceneId &sceneId);
+			Scene * _getScenePtr(const SceneId &sceneId, const bool &useCache = true);
 
 			bool frameStarted(const Ogre::FrameEvent &event);
 			bool frameEnded(const Ogre::FrameEvent &event);
@@ -73,8 +74,8 @@ namespace OGF {
 
 			void preload(const SceneId &sceneId);
 
-			void add(const SceneId &sceneId);
-			void remove(const SceneId &sceneId);
+			ChildId addChild(const SceneId &sceneId);
+			void removeChild(const ChildId &childId);
 
 			void push(const SceneId &sceneId);
 			void pop();

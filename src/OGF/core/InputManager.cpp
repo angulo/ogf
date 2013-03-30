@@ -23,33 +23,66 @@ using namespace OGF;
 
 template<> InputManager * Ogre::Singleton<InputManager>::msSingleton = 0;
 
+CEGUI::MouseButton
+InputManager::_convertMouseButton(OIS::MouseButtonID id)
+{
+	CEGUI::MouseButton ceguiId;
+
+	switch(id) {
+		case OIS::MB_Left:
+			ceguiId = CEGUI::LeftButton;
+			break;
+		case OIS::MB_Right:
+			ceguiId = CEGUI::RightButton;
+			break;
+		case OIS::MB_Middle:
+			ceguiId = CEGUI::MiddleButton;
+			break;
+		default:
+			ceguiId = CEGUI::LeftButton;
+	}
+
+	return ceguiId;
+}
+
 bool
 InputManager::keyPressed(const OIS::KeyEvent &event)
 {
+	CEGUI::System::getSingleton().injectKeyDown(event.key);
+	CEGUI::System::getSingleton().injectChar(event.text);
+
 	return _keyListener == NULL || _keyListener->keyPressed(event);
 }
 
 bool
 InputManager::keyReleased(const OIS::KeyEvent &event)
 {
+	CEGUI::System::getSingleton().injectKeyUp(event.key);
+
 	return _keyListener == NULL || _keyListener->keyReleased(event);
 }
 
 bool
 InputManager::mouseMoved(const OIS::MouseEvent &event)
 {
+	CEGUI::System::getSingleton().injectMouseMove(event.state.X.rel, event.state.Y.rel);
+
 	return _mouseListener == NULL || _mouseListener->mouseMoved(event);
 }
 
 bool
 InputManager::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
+	CEGUI::System::getSingleton().injectMouseButtonDown(_convertMouseButton(buttonId));
+
 	return _mouseListener == NULL || _mouseListener->mousePressed(event, buttonId);
 }
 
 bool
 InputManager::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 {
+	CEGUI::System::getSingleton().injectMouseButtonUp(_convertMouseButton(buttonId));
+
 	return _mouseListener == NULL || _mouseListener->mouseReleased(event, buttonId);
 }
 
