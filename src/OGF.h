@@ -10,6 +10,7 @@
 #include "core/Scene.h"
 #include "core/SceneController.h"
 #include "core/Types.h"
+#include "core/Widget.h"
 
 // Util components
 #include "util/ModelBuilder.h"
