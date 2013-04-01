@@ -3,6 +3,7 @@
 
 // Core componentes
 #include "core/Bootstrap.h"
+#include "core/ConfigReader.h"
 #include "core/ISceneFactory.h"
 #include "core/InputManager.h"
 #include "core/Log.h"
