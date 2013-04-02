@@ -21,7 +21,15 @@
 #define __CONFIG_READER_H__
 
 #include <map>
+#include <vector>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <exception>
+
+#include <OGRE/Ogre.h>
+
+#define CONFIG_READER_KEY_DELIMITER ':'
 
 namespace OGF {
 	
@@ -36,6 +44,8 @@ namespace OGF {
 			
 			template<class T>
 			T _read(const std::string &key);
+			
+			void _loadConfigFile();
 
 		public:
 			
@@ -44,7 +54,29 @@ namespace OGF {
 			
 			template<class T>
 			T get(const std::string &key);
+	};
 
+	class ConfigKeyNotFoundException : public std::exception {
+		
+		private:
+			
+			std::string _message;
+
+		public:
+		
+			ConfigKeyNotFoundException(const std::string &message)
+				: _message(message)
+			{
+			}
+
+			virtual ~ConfigKeyNotFoundException() throw () {
+			}
+
+			virtual const char *
+			what() const throw ()
+			{
+				return _message.c_str();
+			}
 	};
 };
 

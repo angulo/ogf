@@ -19,29 +19,126 @@
 
 #include "ConfigReader.h"
 
-using namespace OGF;
+namespace OGF {
 
-template<class T>
-T _read(const std::string &key)
-{
+	template<class T>
+	T
+	ConfigReader::_read(const std::string &key)
+	{
+		T result = static_cast<T>(_config[key]);
+	}
 
-}
+	// Simple type specializations
 
-ConfigReader::ConfigReader(const std::string &configFile, const bool &useCache)
-	: _configFile(configFile), _useCache(useCache)
-{
+	template<>
+	bool
+	ConfigReader::_read(const std::string &key)
+	{
+		return Ogre::StringConverter::parseBool(_config[key]);
+	}
 
-}
+	template<>
+	int
+	ConfigReader::_read(const std::string &key)
+	{
+		return Ogre::StringConverter::parseInt(_config[key]);
+	}
 
-ConfigReader::~ConfigReader()
-{
+	template<>
+	long int
+	ConfigReader::_read(const std::string &key)
+	{
+		return Ogre::StringConverter::parseLong(_config[key]);
+	}
 
-}
+	template<>
+	Ogre::Real
+	ConfigReader::_read(const std::string &key)
+	{
+		return Ogre::StringConverter::parseReal(_config[key]);
+	}
 
-template<class T>
-T
-ConfigReader::get(const std::string &key)
-{
-	T result = _read<T>(key);
-	return result;
-}
+	// Vector specializations
+
+	template<>
+	std::vector<bool>
+	ConfigReader::_read(const std::string &key)
+	{
+		std::vector<bool> result;
+		return result;
+	}
+
+	template<>
+	std::vector<int>
+	ConfigReader::_read(const std::string &key)
+	{
+		std::vector<int> result;
+		return result;
+	}
+
+	template<>
+	std::vector<long int>
+	ConfigReader::_read(const std::string &key)
+	{
+		std::vector<long> result;
+		return result;
+	}
+
+	template<>
+	std::vector<Ogre::Real>
+	ConfigReader::_read(const std::string &key)
+	{
+		std::vector<Ogre::Real> result;
+		return result;
+	}
+
+	void
+	ConfigReader::_loadConfigFile()
+	{
+		std::ifstream inputStream(_configFile.c_str());
+		std::string tempLine;
+
+		if (inputStream.is_open()) {
+
+			std::string line;
+
+			while (std::getline(inputStream, line)) {
+				std::string key, value;
+				std::stringstream ss(line);
+
+				std::getline(ss, key, CONFIG_READER_KEY_DELIMITER);
+				std::getline(ss, value, CONFIG_READER_KEY_DELIMITER);
+				
+				_config[key] = value;
+			}
+		}
+
+		inputStream.close();
+	}
+
+	ConfigReader::ConfigReader(const std::string &configFile, const bool &useCache)
+		: _configFile(configFile), _useCache(useCache)
+	{
+		if (_useCache)
+			_loadConfigFile();
+	}
+
+	ConfigReader::~ConfigReader()
+	{
+
+	}
+
+	template<class T>
+	T
+	ConfigReader::get(const std::string &key)
+	{
+		if (!_useCache)
+			_loadConfigFile();
+		
+		if (_config.find(key) == _config.end())
+			throw new ConfigKeyNotFoundException(key);
+
+		T result = _read<T>(key);
+		return result;
+	}
+};
