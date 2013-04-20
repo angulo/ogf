@@ -25,6 +25,7 @@
 #include <Ogre.h>
 #include <OIS/OIS.h>
 
+#include "ConfigReader.h"
 #include "LogFactory.h"
 #include "Types.h"
 
@@ -38,7 +39,13 @@ namespace OGF {
 		protected:
 			
 			Ogre::SceneManager *_sceneManager;
+			ConfigReader *_configReader;
 			ChildMap _childs;
+
+			void _initConfigReader(const std::string &configFile, const bool &useCache = true);
+
+			template<class T>
+			T _configValue(const std::string &key);
 
 		public:
 			
@@ -88,6 +95,23 @@ namespace OGF {
 			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 
 	}; // Class Scene
+	
+	// Template implementations
+
+	template<class T>
+	T
+	Scene::_configValue(const std::string &key)
+	{
+		if (!_configReader) {
+			std::string errorMessage = "Config reader not initialized when reading value";
+
+			LogFactory::getSingletonPtr()->get(LOG_ERR)->log("Scene", "configValue", errorMessage, LOG_SEVERITY_ERROR);
+			throw errorMessage;
+		}
+
+		return _configReader->get<T>(key);
+	}
+
 
 }; // Namespace OGF
 

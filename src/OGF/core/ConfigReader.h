@@ -78,6 +78,22 @@ namespace OGF {
 				return _message.c_str();
 			}
 	};
+
+	// Template implementations
+	
+	template<class T>
+	T
+	ConfigReader::get(const std::string &key)
+	{
+		if (!_useCache)
+			_loadConfigFile();
+		
+		if (_config.find(key) == _config.end())
+			throw new ConfigKeyNotFoundException(key);
+
+		T result = _read<T>(key);
+		return result;
+	}
 };
 
 #endif

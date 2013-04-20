@@ -21,7 +21,14 @@
 
 using namespace OGF;
 
-Scene::Scene()
+void
+Scene::_initConfigReader(const std::string &configFile, const bool &useCache)
+{
+	_configReader = new ConfigReader(configFile, useCache);
+}
+
+Scene::Scene() : 
+	_configReader(NULL)
 {
 	_sceneManager = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC);
 }
@@ -29,6 +36,14 @@ Scene::Scene()
 Scene::Scene(Ogre::SceneManager *sceneManager)
 	:	_sceneManager(sceneManager)
 {
+}
+
+Scene::~Scene()
+{
+	if (_configReader) 
+		delete _configReader;
+
+	Ogre::Root::getSingletonPtr()->destroySceneManager(_sceneManager);
 }
 
 Ogre::SceneManager *
@@ -58,11 +73,6 @@ Scene::removeChild(const ChildId &childId)
 		delete it->second;
 		_childs.erase(it);
 	}
-}
-
-Scene::~Scene()
-{
-	Ogre::Root::getSingletonPtr()->destroySceneManager(_sceneManager);
 }
 
 void

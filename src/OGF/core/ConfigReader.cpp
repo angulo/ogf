@@ -21,11 +21,39 @@
 
 namespace OGF {
 
-	template<class T>
-	T
-	ConfigReader::_read(const std::string &key)
+	void
+	ConfigReader::_loadConfigFile()
 	{
-		T result = static_cast<T>(_config[key]);
+		std::ifstream inputStream(_configFile.c_str());
+		std::string tempLine;
+
+		if (inputStream.is_open()) {
+			std::string line;
+
+			while (std::getline(inputStream, line)) {
+				std::string key, value;
+				std::stringstream ss(line);
+
+				std::getline(ss, key, CONFIG_READER_KEY_DELIMITER);
+				std::getline(ss, value, CONFIG_READER_KEY_DELIMITER);
+
+				_config[key] = value;
+			}
+		}
+
+		inputStream.close();
+	}
+
+	ConfigReader::ConfigReader(const std::string &configFile, const bool &useCache)
+		: _configFile(configFile), _useCache(useCache)
+	{
+		if (_useCache)
+			_loadConfigFile();
+	}
+
+	ConfigReader::~ConfigReader()
+	{
+
 	}
 
 	// Simple type specializations
@@ -92,53 +120,4 @@ namespace OGF {
 		return result;
 	}
 
-	void
-	ConfigReader::_loadConfigFile()
-	{
-		std::ifstream inputStream(_configFile.c_str());
-		std::string tempLine;
-
-		if (inputStream.is_open()) {
-
-			std::string line;
-
-			while (std::getline(inputStream, line)) {
-				std::string key, value;
-				std::stringstream ss(line);
-
-				std::getline(ss, key, CONFIG_READER_KEY_DELIMITER);
-				std::getline(ss, value, CONFIG_READER_KEY_DELIMITER);
-				
-				_config[key] = value;
-			}
-		}
-
-		inputStream.close();
-	}
-
-	ConfigReader::ConfigReader(const std::string &configFile, const bool &useCache)
-		: _configFile(configFile), _useCache(useCache)
-	{
-		if (_useCache)
-			_loadConfigFile();
-	}
-
-	ConfigReader::~ConfigReader()
-	{
-
-	}
-
-	template<class T>
-	T
-	ConfigReader::get(const std::string &key)
-	{
-		if (!_useCache)
-			_loadConfigFile();
-		
-		if (_config.find(key) == _config.end())
-			throw new ConfigKeyNotFoundException(key);
-
-		T result = _read<T>(key);
-		return result;
-	}
 };
