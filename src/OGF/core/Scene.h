@@ -84,6 +84,8 @@ namespace OGF {
 			virtual bool mousePressedFacade(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 			virtual bool mouseReleasedFacade(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 
+			// Methods that can be overriden in the child classes
+
 			virtual bool frameStarted(const Ogre::FrameEvent& event);
 			virtual bool frameEnded(const Ogre::FrameEvent& event);
 

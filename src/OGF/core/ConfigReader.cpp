@@ -80,6 +80,13 @@ namespace OGF {
 	}
 
 	template<>
+	std::string
+	ConfigReader::_read(const std::string &key)
+	{
+		return _config[key];
+	}
+
+	template<>
 	Ogre::Real
 	ConfigReader::_read(const std::string &key)
 	{
