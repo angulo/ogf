@@ -93,6 +93,11 @@ SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID 
 	return _sceneStore.empty() || _sceneStore.top()->mouseReleasedFacade(event, buttonId);
 }
 
+SceneController::SceneController()
+	: _childCount(0)
+{
+}
+
 SceneController::~SceneController()
 {
 	size_t storeSize = _sceneStore.size();
@@ -145,17 +150,29 @@ SceneController::preload(const SceneId &sceneId)
 ChildId
 SceneController::addChild(const SceneId &sceneId)
 {
-	static ChildId count = 0;
-
 	if (!_sceneStore.empty()) {
-		_sceneStore.top()->addChild(_getScenePtr(sceneId, false), ++count);
+		_sceneStore.top()->addChild(_getScenePtr(sceneId, false), ++_childCount);
 	} else {
 		std::string errorMessage = "No active scene, impossible to add child";
 		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("SceneController", "addChild", errorMessage, LOG_SEVERITY_ERROR);
 		throw errorMessage;
 	}
 
-	return count;
+	return _childCount;
+}
+
+ChildId
+SceneController::addChild(Scene *child)
+{
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->addChild(child, ++_childCount);
+	} else {
+		std::string errorMessage = "No active scene, impossible to add child";
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("SceneController", "addChild", errorMessage, LOG_SEVERITY_ERROR);
+		throw errorMessage;
+	}
+
+	return _childCount;
 }
 
 void

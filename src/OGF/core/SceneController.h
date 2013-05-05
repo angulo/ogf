@@ -45,6 +45,7 @@ namespace OGF {
 			SceneMap _sceneMap;
 			ISceneFactory *_sceneFactory;
 			std::stack<Scene *> _sceneStore;
+			size_t _childCount;
 
 			Scene * _getScenePtr(const SceneId &sceneId, const bool &useCache = true);
 
@@ -65,6 +66,7 @@ namespace OGF {
 
 		public:
 
+			SceneController();
 			~SceneController();
 
 			static SceneController & getSingleton();
@@ -75,6 +77,8 @@ namespace OGF {
 			void preload(const SceneId &sceneId);
 
 			ChildId addChild(const SceneId &sceneId);
+			ChildId addChild(Scene *child);
+
 			void removeChild(const ChildId &childId);
 
 			void push(const SceneId &sceneId);
