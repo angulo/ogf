@@ -179,7 +179,7 @@ ModelBuilder::buildNode()
 	Ogre::SceneNode *node = NULL;
 	Ogre::Entity *entity = buildEntity();
 
-	if (_entityName.size() > 0) {
+	if (_nodeName.size() > 0) {
 		node = _sceneManager->createSceneNode(_nodeName);
 	} else {
 		node = _sceneManager->createSceneNode();

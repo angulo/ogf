@@ -58,6 +58,19 @@ ModelFactory::initialize(const ModelMap &modelMap)
 	_modelMap = modelMap;
 }
 
+ModelPath
+ModelFactory::getPath(const ModelId &modelId)
+{
+	ModelMap::iterator it = _modelMap.find(modelId);
+	if (it == _modelMap.end()) {
+		std::string message = "Model with id not in the model directory";
+		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelFactory", "getBuilder", message, LOG_SEVERITY_ERROR);
+		throw message;
+	} else {
+		return it->second;
+	}
+}
+
 ModelBuilder *
 ModelFactory::getBuilder(Ogre::SceneManager *sceneManager)
 {
@@ -67,16 +80,5 @@ ModelFactory::getBuilder(Ogre::SceneManager *sceneManager)
 ModelBuilder *
 ModelFactory::getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelId)
 {
-	ModelBuilder *builder;
-
-	ModelMap::iterator it = _modelMap.find(modelId);
-	if (it == _modelMap.end()) {
-		std::string message = "Model with id not in the model directory";
-		LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ModelFactory", "getBuilder", message, LOG_SEVERITY_ERROR);
-		throw message;
-	} else {
-		builder = new ModelBuilder(sceneManager, it->second);
-	}
-
-	return builder;
+	return new ModelBuilder(sceneManager, getPath(modelId));
 }

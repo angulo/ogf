@@ -42,8 +42,6 @@ Scene::~Scene()
 {
 	if (_configReader) 
 		delete _configReader;
-
-	Ogre::Root::getSingletonPtr()->destroySceneManager(_sceneManager);
 }
 
 Ogre::SceneManager *

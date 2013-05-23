@@ -47,6 +47,7 @@ namespace OGF {
 			static ModelFactory * getSingletonPtr();
 
 			void initialize(const ModelMap &modelMap);
+			ModelPath getPath(const ModelId &modelId);
 
 			ModelBuilder * getBuilder(Ogre::SceneManager *sceneManager);
 			ModelBuilder * getBuilder(Ogre::SceneManager *sceneManager, const ModelId &modelId);
