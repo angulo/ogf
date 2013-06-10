@@ -85,6 +85,7 @@ namespace OGF {
 			void pop();
 
 			void replace(const SceneId &sceneId);
+			void replace(Scene *scene);
 
 	}; // Class SceneController
 

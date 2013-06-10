@@ -222,3 +222,15 @@ SceneController::replace(const SceneId &sceneId)
 	_sceneStore.push(_getScenePtr(sceneId));
 	_sceneStore.top()->enterFacade();
 }
+
+void
+SceneController::replace(Scene *scene)
+{
+	if (!_sceneStore.empty()) {
+		_sceneStore.top()->exitFacade();
+		_sceneStore.pop();
+	}
+
+	_sceneStore.push(scene);
+	_sceneStore.top()->enterFacade();
+}
