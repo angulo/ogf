@@ -27,15 +27,16 @@ Scene::_initConfigReader(const std::string &configFile, const bool &useCache)
 	_configReader = new ConfigReader(configFile, useCache);
 }
 
-Scene::Scene() : 
-	_configReader(NULL)
+Scene::Scene()
 {
+	_configReader = 0;
 	_sceneManager = Ogre::Root::getSingletonPtr()->createSceneManager(Ogre::ST_GENERIC);
 }
 
 Scene::Scene(Ogre::SceneManager *sceneManager)
 	:	_sceneManager(sceneManager)
 {
+	_configReader = 0;
 }
 
 Scene::~Scene()
