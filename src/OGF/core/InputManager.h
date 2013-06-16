@@ -67,7 +67,8 @@ namespace OGF {
 			OIS::Mouse * getMouse() const;
 			OIS::JoyStick * getJoystick() const;
 
-			void initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener, OIS::MouseListener *mouseListener);
+			void initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener,
+				OIS::MouseListener *mouseListener, OIS::JoyStickListener *joystickListener);
 			void updateMouseLimits();
 			void capture();
 	};

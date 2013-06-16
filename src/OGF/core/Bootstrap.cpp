@@ -129,7 +129,7 @@ Bootstrap::init(const std::string &resourcesFilePath, const std::string &windowT
 	sceneController->initialize(sceneFactory);
 	_initialScene = initialScene;
 
-	InputManager::getSingletonPtr()->initialize(root->getAutoCreatedWindow(), sceneController, sceneController);
+	InputManager::getSingletonPtr()->initialize(root->getAutoCreatedWindow(), sceneController, sceneController, sceneController);
 
 	_initGui();
 	_initSound();

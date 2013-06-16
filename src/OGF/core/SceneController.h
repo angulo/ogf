@@ -38,7 +38,7 @@ namespace OGF {
 	typedef std::map<SceneId, Scene *> SceneMap;
 	
 	class SceneController : public Ogre::Singleton<SceneController>, public Ogre::FrameListener,
-		public OIS::KeyListener, public OIS::MouseListener {
+		public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener {
 
 		private:
 

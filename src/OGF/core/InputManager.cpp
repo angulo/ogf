@@ -181,11 +181,13 @@ InputManager::getJoystick() const
 }
 
 void
-InputManager::initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener, OIS::MouseListener *mouseListener)
+InputManager::initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener,
+	OIS::MouseListener *mouseListener, OIS::JoyStickListener *joystickListener)
 {
 	_renderWindow = renderWindow;
 	_keyListener = keyListener;
 	_mouseListener = mouseListener;
+	_joystickListener = joystickListener;
 
 	if (_eventSource == NULL) {
 		OIS::ParamList windowParamList;

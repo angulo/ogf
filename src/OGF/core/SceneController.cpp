@@ -98,6 +98,7 @@ SceneController::buttonPressed(const OIS::JoyStickEvent &event, int button)
 {
 	return _sceneStore.empty() || _sceneStore.top()->buttonPressedFacade(event, button);
 }
+
 bool
 SceneController::buttonReleased(const OIS::JoyStickEvent &event, int button)
 {
