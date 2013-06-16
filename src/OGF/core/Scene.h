@@ -84,6 +84,11 @@ namespace OGF {
 			virtual bool mousePressedFacade(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 			virtual bool mouseReleasedFacade(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 
+			virtual bool buttonPressedFacade(const OIS::JoyStickEvent &event, int button);
+			virtual bool buttonReleasedFacade(const OIS::JoyStickEvent &event, int button);
+			virtual bool axisMovedFacade(const OIS::JoyStickEvent &event, int axis);
+
+
 			// Methods that can be overriden in the child classes
 
 			virtual bool frameStarted(const Ogre::FrameEvent& event);
@@ -95,6 +100,10 @@ namespace OGF {
 			virtual bool mouseMoved(const OIS::MouseEvent& event);
 			virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
 			virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID buttonId);
+
+			virtual bool buttonPressed(const OIS::JoyStickEvent &event, int button);
+			virtual bool buttonReleased(const OIS::JoyStickEvent &event, int button);
+			virtual bool axisMoved(const OIS::JoyStickEvent &event, int axis);
 
 	}; // Class Scene
 	

@@ -86,13 +86,33 @@ InputManager::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID but
 	return _mouseListener == NULL || _mouseListener->mouseReleased(event, buttonId);
 }
 
+bool
+InputManager::buttonPressed(const OIS::JoyStickEvent &event, int button)
+{
+	return _joystickListener == NULL || _joystickListener->buttonPressed(event, button);
+}
+
+bool
+InputManager::buttonReleased(const OIS::JoyStickEvent &event, int button)
+{
+	return _joystickListener == NULL || _joystickListener->buttonReleased(event, button);
+}
+
+bool
+InputManager::axisMoved(const OIS::JoyStickEvent &event, int axis)
+{
+	return _joystickListener == NULL || _joystickListener->axisMoved(event, axis);
+}
+
 InputManager::InputManager()
 {
 	_eventSource = NULL;
 	_keyListener = NULL;
 	_mouseListener = NULL;
+	_joystickListener = NULL;
 	_mouse = NULL;
 	_keyboard = NULL;
+	_joystick = NULL;
 }
 
 InputManager::~InputManager()
@@ -108,11 +128,17 @@ InputManager::~InputManager()
 			_mouse = NULL;
 		}
 
+		if (_joystick) {
+			_eventSource->destroyInputObject(_joystick);
+			_joystick = NULL;
+		}
+
 		OIS::InputManager::destroyInputSystem(_eventSource);
 
 		_eventSource = NULL;
 		_keyListener = NULL;
 		_mouseListener = NULL;
+		_joystickListener = NULL;
 	}
 }
 
@@ -148,6 +174,12 @@ InputManager::getMouse() const
 	return _mouse;
 }
 
+OIS::JoyStick *
+InputManager::getJoystick() const
+{
+	return _joystick;
+}
+
 void
 InputManager::initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener, OIS::MouseListener *mouseListener)
 {
@@ -173,6 +205,15 @@ InputManager::initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *key
 		);
 		_mouse->setEventCallback(this);
 		updateMouseLimits();
+		
+		try {
+			_joystick = static_cast<OIS::JoyStick *> (
+				_eventSource->createInputObject(OIS::OISJoyStick, true)
+			);
+			_joystick->setEventCallback(this);
+		} catch (OIS::Exception) {
+			// No joystick plugged in
+		}
 	}
 }
 
@@ -196,4 +237,7 @@ InputManager::capture()
 
 	if (_keyboard != NULL)
 		_keyboard->capture();
+	
+	if (_joystick != NULL)
+		_joystick->capture();
 }

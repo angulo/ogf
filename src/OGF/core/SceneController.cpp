@@ -93,6 +93,23 @@ SceneController::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID 
 	return _sceneStore.empty() || _sceneStore.top()->mouseReleasedFacade(event, buttonId);
 }
 
+bool
+SceneController::buttonPressed(const OIS::JoyStickEvent &event, int button)
+{
+	return _sceneStore.empty() || _sceneStore.top()->buttonPressedFacade(event, button);
+}
+bool
+SceneController::buttonReleased(const OIS::JoyStickEvent &event, int button)
+{
+	return _sceneStore.empty() || _sceneStore.top()->buttonReleasedFacade(event, button);
+}
+
+bool
+SceneController::axisMoved(const OIS::JoyStickEvent &event, int axis)
+{
+	return _sceneStore.empty() || _sceneStore.top()->axisMoved(event, axis);
+}
+
 SceneController::SceneController()
 	: _childCount(0)
 {

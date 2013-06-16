@@ -193,6 +193,33 @@ Scene::mouseReleasedFacade(const OIS::MouseEvent &event, OIS::MouseButtonID butt
 }
 
 bool
+Scene::buttonPressedFacade(const OIS::JoyStickEvent &event, int button)
+{
+	for (ChildMap::iterator it = _childs.begin(); it != _childs.end(); it++)
+		it->second->buttonPressedFacade(event, button);
+
+	return buttonPressed(event, button);
+}
+
+bool
+Scene::buttonReleasedFacade(const OIS::JoyStickEvent &event, int button)
+{
+	for (ChildMap::iterator it = _childs.begin(); it != _childs.end(); it++)
+		it->second->buttonReleasedFacade(event, button);
+
+	return buttonReleased(event, button);
+}
+
+bool
+Scene::axisMovedFacade(const OIS::JoyStickEvent &event, int axis)
+{
+	for (ChildMap::iterator it = _childs.begin(); it != _childs.end(); it++)
+		it->second->axisMovedFacade(event, axis);
+
+	return axisMoved(event, axis);
+}
+
+bool
 Scene::frameStarted(const Ogre::FrameEvent& event)
 {
 	return true;
@@ -231,6 +258,24 @@ Scene::mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
 
 bool
 Scene::mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId)
+{
+	return true;
+}
+
+bool
+Scene::buttonPressed(const OIS::JoyStickEvent &event, int button)
+{
+	return true;
+}
+
+bool
+Scene::buttonReleased(const OIS::JoyStickEvent &event, int button)
+{
+	return true;
+}
+
+bool
+Scene::axisMoved(const OIS::JoyStickEvent &event, int axis)
 {
 	return true;
 }

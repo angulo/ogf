@@ -58,6 +58,10 @@ namespace OGF {
 			bool mouseMoved(const OIS::MouseEvent &event);
 			bool mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId);
 			bool mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId);
+
+			bool buttonPressed(const OIS::JoyStickEvent &event, int button);
+			bool buttonReleased(const OIS::JoyStickEvent &event, int button);
+			bool axisMoved(const OIS::JoyStickEvent &event, int axis);
 		
 		protected:
 

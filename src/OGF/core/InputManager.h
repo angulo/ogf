@@ -26,7 +26,7 @@
 
 namespace OGF {
 	
-	class InputManager : public Ogre::Singleton<InputManager>, public OIS::KeyListener, public OIS::MouseListener {
+	class InputManager : public Ogre::Singleton<InputManager>, public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener {
 
 		private:
 			
@@ -39,6 +39,9 @@ namespace OGF {
 			OIS::Mouse *_mouse;
 			OIS::MouseListener *_mouseListener;
 
+			OIS::JoyStick *_joystick;
+			OIS::JoyStickListener *_joystickListener;
+
 			CEGUI::MouseButton _convertMouseButton(OIS::MouseButtonID id);
 
 			bool keyPressed(const OIS::KeyEvent &event);
@@ -47,6 +50,10 @@ namespace OGF {
 			bool mouseMoved(const OIS::MouseEvent &event);
 			bool mousePressed(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId);
 			bool mouseReleased(const OIS::MouseEvent &event, OIS::MouseButtonID buttonId);
+
+			bool buttonPressed(const OIS::JoyStickEvent &arg, int button);
+			bool buttonReleased(const OIS::JoyStickEvent &arg, int button);
+			bool axisMoved(const OIS::JoyStickEvent &arg, int axis);
 
 		public:
 
@@ -58,6 +65,7 @@ namespace OGF {
 
 			OIS::Keyboard * getKeyboard() const;
 			OIS::Mouse * getMouse() const;
+			OIS::JoyStick * getJoystick() const;
 
 			void initialize(Ogre::RenderWindow *renderWindow, OIS::KeyListener *keyListener, OIS::MouseListener *mouseListener);
 			void updateMouseLimits();
