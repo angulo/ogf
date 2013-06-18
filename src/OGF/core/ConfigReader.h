@@ -29,6 +29,8 @@
 
 #include <OGRE/Ogre.h>
 
+#include "LogFactory.h"
+
 #define CONFIG_READER_KEY_DELIMITER ':'
 
 namespace OGF {
@@ -88,8 +90,10 @@ namespace OGF {
 		if (!_useCache)
 			_loadConfigFile();
 		
-		if (_config.find(key) == _config.end())
+		if (_config.find(key) == _config.end()) {
+			LogFactory::getSingletonPtr()->get(LOG_ERR)->log("ConfigReader", "get", "Config key not found: " + key, LOG_SEVERITY_ERROR);
 			throw new ConfigKeyNotFoundException(key);
+		}
 
 		T result = _read<T>(key);
 		return result;
