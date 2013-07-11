@@ -11,6 +11,7 @@ AM_CPPFLAGS = \
 AM_CFLAGS =\
 	 -Wall\
 	 -g
+	 -O3
 
 lib_LTLIBRARIES = libogf-0.1.la
 

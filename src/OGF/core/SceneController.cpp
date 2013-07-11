@@ -208,11 +208,17 @@ SceneController::removeChild(const ChildId &childId)
 void
 SceneController::push(const SceneId &sceneId)
 {
+	push(_getScenePtr(sceneId));
+}
+
+void
+SceneController::push(Scene *scene)
+{
 	if (!_sceneStore.empty()) {
 		_sceneStore.top()->pauseFacade();
 	}
 
-	_sceneStore.push(_getScenePtr(sceneId));
+	_sceneStore.push(scene);
 	_sceneStore.top()->enterFacade();
 }
 
@@ -232,13 +238,7 @@ SceneController::pop()
 void
 SceneController::replace(const SceneId &sceneId)
 {
-	if (!_sceneStore.empty()) {
-		_sceneStore.top()->exitFacade();
-		_sceneStore.pop();
-	}
-
-	_sceneStore.push(_getScenePtr(sceneId));
-	_sceneStore.top()->enterFacade();
+	replace(_getScenePtr(sceneId));
 }
 
 void

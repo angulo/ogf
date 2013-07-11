@@ -86,6 +86,7 @@ namespace OGF {
 			void removeChild(const ChildId &childId);
 
 			void push(const SceneId &sceneId);
+			void push(Scene *scene);
 			void pop();
 
 			void replace(const SceneId &sceneId);
